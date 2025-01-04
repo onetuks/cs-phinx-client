@@ -1,18 +1,22 @@
 <template>
-  <div id="app">
+  <div id="app" class="flex flex-col min-h-screen">
     <nav>
       <router-link to="/">Home</router-link>
       <router-link to="/admin">Admin</router-link>
     </nav>
-    <router-view />
+    <router-view class="flex-grow" />
+    <Footer />
   </div>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
+import Footer from "@/components/layout/Footer.vue";
 
 @Options({
-  components: {},
+  components: {
+    Footer,
+  },
 })
 export default class App extends Vue {}
 </script>
@@ -25,5 +29,6 @@ export default class App extends Vue {}
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  height: 100%;
 }
 </style>

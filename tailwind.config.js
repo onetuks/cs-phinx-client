@@ -5,7 +5,8 @@ export default {
     extend: {
       colors: {
         primary: "var(--purple--500)",
-        secondary: "var(--purple--100)",
+        secondary: "var(--purple--300)",
+        tertiary: "var(--purple--100)",
       },
     },
   },

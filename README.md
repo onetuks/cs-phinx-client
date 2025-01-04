@@ -1,29 +1,29 @@
 # cs-phinx-client
 
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
+```angular2html
+src/
+├── components/       # 공통 컴포넌트
+│   ├── common/       # 여러 페이지에서 사용하는 일반적인 컴포넌트
+│   │   ├── Button.vue
+│   │   ├── Modal.vue
+│   │   └── Navbar.vue
+│   ├── layout/       # 레이아웃 관련 컴포넌트 (Header, Footer 등)
+│   │   ├── Header.vue
+│   │   └── Footer.vue
+│   └── widgets/      # 특정 기능이나 모듈화된 위젯 컴포넌트
+│       ├── Chart.vue
+│       └── Map.vue
+├── pages/            # 페이지 단위 컴포넌트
+│   ├── HomePage.vue
+│   ├── AboutPage.vue
+│   └── AdminPage.vue
+├── features/         # 특정 페이지에서만 사용하는 컴포넌트들
+│   ├── admin/        # AdminPage에서만 사용하는 컴포넌트
+│   │   ├── UserTable.vue
+│   │   └── RoleManager.vue
+│   ├── home/         # HomePage에서만 사용하는 컴포넌트
+│   │   └── HeroBanner.vue
+│   └── about/        # AboutPage에서만 사용하는 컴포넌트
+│       └── TeamList.vue
+└── App.vue           # 메인 앱 컴포넌트
 ```
