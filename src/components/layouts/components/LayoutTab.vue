@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRoute } from "vue-router";
 import { computed } from "vue";
-import { LayoutTab } from "@/components/layout/types/LayoutTab";
+import { LayoutTab } from "@/components/layouts/types/LayoutTab";
 import router from "@/router";
 
 const props = defineProps<{

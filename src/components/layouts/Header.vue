@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import LayoutButton from "@/components/layout/components/LayoutButton.vue";
-import LayoutTab from "@/components/layout/components/LayoutTab.vue";
+import LayoutButton from "@/components/layouts/components/LayoutButton.vue";
+import LayoutTab from "@/components/layouts/components/LayoutTab.vue";
 import router from "@/router";
-import { LayoutTabs } from "@/components/layout/types/LayoutTab";
+import { LayoutTabs } from "@/components/layouts/types/LayoutTab";
 
 const isManager = (): boolean => true;
 

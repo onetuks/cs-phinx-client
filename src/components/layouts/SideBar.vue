@@ -1,14 +1,16 @@
 <script setup lang="ts">
-import SideBarMainTab from "@/components/layout/components/SideBarMainTab.vue";
-import SideBarSubTab from "@/components/layout/components/SideBarSubTab.vue";
+import SideBarMainTab from "@/components/layouts/components/SideBarMainTab.vue";
+import SideBarSubTab from "@/components/layouts/components/SideBarSubTab.vue";
 import {
   SideBarMainTabs,
   SideBarSubTabs,
-} from "@/components/layout/types/SideBarTab";
+} from "@/components/layouts/types/SideBarTab";
 </script>
 
 <template>
-  <div class="w-56 min-h-screen bg-white border-b border-b-gray-300">
+  <div
+    class="sticky top-0 left-0 flex flex-col w-56 min-h-screen bg-white border-b border-b-gray-300"
+  >
     <side-bar-main-tab :tab-type="SideBarMainTabs.WORKBOOK_MANAGEMENT" />
     <side-bar-main-tab :tab-type="SideBarMainTabs.PROBLEM_MANAGEMENT" />
     <side-bar-sub-tab :tab-type="SideBarSubTabs.CHOICE_PROB_MANAGEMENT" />

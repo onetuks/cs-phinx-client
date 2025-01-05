@@ -1,18 +1,20 @@
 <template>
   <div id="app" class="flex flex-col min-h-screen">
     <Header />
-    <SideBar :hidden="!isFooterHidden" />
-    <router-view class="flex-grow" />
+    <div class="flex flex-row">
+      <side-bar :hidden="!isFooterHidden" />
+      <router-view class="flex-grow" />
+    </div>
     <Footer :hidden="isFooterHidden" />
   </div>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import Footer from "@/components/layout/Footer.vue";
-import Header from "@/components/layout/Header.vue";
+import Footer from "@/components/layouts/Footer.vue";
+import Header from "@/components/layouts/Header.vue";
 import { useRoute } from "vue-router";
-import SideBar from "@/components/layout/SideBar.vue";
+import SideBar from "@/components/layouts/SideBar.vue";
 
 @Options({
   components: {
