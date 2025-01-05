@@ -25,5 +25,19 @@ src/
 │   │   └── HeroBanner.vue
 │   └── about/        # AboutPage에서만 사용하는 컴포넌트
 │       └── TeamList.vue
+├── api/              # API 요청/응답 타입과 함수
+│   ├── user.ts
+│   ├── product.ts
+│   └── types.ts
+├── types/            # 전역 타입 정의
+│   ├── index.ts
+│   ├── api.ts
+│   ├── components.ts
+│   └── models.ts
+├── utils/            # 유틸리티 함수
+│   ├── index.ts
+│   ├── date.ts
+│   ├── string.ts
+│   └── validation.ts
 └── App.vue           # 메인 앱 컴포넌트
 ```
