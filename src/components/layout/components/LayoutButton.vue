@@ -3,7 +3,12 @@ import { useToast } from "vue-toastification";
 import "vue-toastification/dist/index.css";
 import router from "@/router";
 
-type LayoutButtonType = "FEEDBACK" | "LINK_SHARE" | "LOGIN" | "LOGOUT";
+type LayoutButtonType =
+  | "FEEDBACK"
+  | "LINK_SHARE"
+  | "LOGIN"
+  | "LOGOUT"
+  | "MANAGEMENT";
 
 defineProps<{
   buttonType: LayoutButtonType;
@@ -21,6 +26,8 @@ const mapToLabel = (buttonType: LayoutButtonType): string => {
       return "로그인";
     case "LOGOUT":
       return "로그아웃";
+    case "MANAGEMENT":
+      return "매니저 시스템";
     default:
       return "Invalid";
   }
@@ -41,6 +48,9 @@ const handleClick = async (buttonType: LayoutButtonType): Promise<void> => {
       break;
     case "LOGOUT":
       await router.push("/logout");
+      break;
+    case "MANAGEMENT":
+      await router.push("/manager");
       break;
     default:
       console.error("Invalid handle Click");

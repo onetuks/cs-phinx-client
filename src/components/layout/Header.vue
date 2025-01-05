@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import LayoutButton from "@/components/icons/LayoutButton.vue";
-import LayoutTab from "@/components/icons/LayoutTab.vue";
+import LayoutButton from "@/components/layout/components/LayoutButton.vue";
+import LayoutTab from "@/components/layout/components/LayoutTab.vue";
 import router from "@/router";
-import { LayoutTabs } from "@/components/icons/LayoutTab";
+import { LayoutTabs } from "@/components/layout/types/LayoutTab";
+
+const isManager = (): boolean => true;
 
 const moveToHome = () => router.push("/");
 </script>
@@ -25,7 +27,14 @@ const moveToHome = () => router.push("/");
       <layout-tab :tab="LayoutTabs.COLLECTION" />
       <layout-tab :tab="LayoutTabs.ANALYSIS" />
     </div>
-    <layout-button :button-type="'LOGIN'" />
+    <div class="flex flex-row space-x-4">
+      <layout-button
+        :button-type="'MANAGEMENT'"
+        v-show="isManager"
+        :class="isManager() ? 'visible' : 'invisible'"
+      />
+      <layout-button :button-type="'LOGIN'" />
+    </div>
   </div>
 </template>
 

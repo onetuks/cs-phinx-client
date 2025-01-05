@@ -7,9 +7,9 @@ const routes = [
     component: () => import("@/views/Home.vue"),
   },
   {
-    path: "/admin",
-    name: "Admin",
-    component: () => import("@/views/admin/Admin.vue"),
+    path: "/manager",
+    name: "Manager",
+    component: () => import("@/views/manager/Manager.vue"),
   },
 ];
 

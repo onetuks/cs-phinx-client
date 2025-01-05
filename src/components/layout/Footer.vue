@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import LayoutButton from "@/components/icons/LayoutButton.vue";
+import LayoutButton from "@/components/layout/components/LayoutButton.vue";
 </script>
 
 <template>
