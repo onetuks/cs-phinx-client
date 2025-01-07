@@ -2,10 +2,10 @@
   <div id="app" class="flex flex-col min-h-screen">
     <Header />
     <div class="flex flex-row">
-      <side-bar :hidden="!isFooterHidden" />
+      <side-bar v-if="isManagerPage" />
       <router-view class="flex-grow" />
     </div>
-    <Footer :hidden="isFooterHidden" />
+    <Footer v-if="!isManagerPage" />
   </div>
 </template>
 
@@ -26,7 +26,7 @@ import SideBar from "@/components/layouts/SideBar.vue";
 export default class App extends Vue {
   private route = useRoute();
 
-  get isFooterHidden(): boolean {
+  get isManagerPage(): boolean {
     return this.route.path.includes("/manager");
   }
 }
