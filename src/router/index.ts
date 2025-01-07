@@ -9,7 +9,7 @@ const routes = [
   {
     path: "/manager",
     name: "백오피스",
-    component: () => import("@/pages/manager/Manager.vue"),
+    component: () => import("@/pages/manager/ManagerPage.vue"),
   },
   {
     path: "/manager/problems",
@@ -32,7 +32,7 @@ const routes = [
     component: () => import("@/pages/manager/problems/ProblemsManager.vue"),
   },
   {
-    path: "/manager/problems/:problemId",
+    path: "/manager/problems/:problem-id",
     name: "문제 상세 관리",
     component: () =>
       import("@/pages/manager/problems/ProblemDetailManager.vue"),
@@ -46,7 +46,20 @@ const routes = [
   {
     path: "/manager/workbooks",
     name: "문제집 관리",
-    component: () => import("@/pages/manager/workbooks/WorkbooksManager.vue"),
+    component: () =>
+      import("@/pages/manager/workbooks/WorkBooksManagerPage.vue"),
+  },
+  {
+    path: "/manager/workbooks/:workbook-id",
+    name: "문제집 상세 관리",
+    component: () =>
+      import("@/pages/manager/workbooks/WorkBookDetailManagerPage.vue"),
+  },
+  {
+    path: "/manager/workbooks/registration",
+    name: "문제집 등록",
+    component: () =>
+      import("@/pages/manager/workbooks/WorkBookDetailManagerPage.vue"),
   },
 ];
 
