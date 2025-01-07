@@ -1,30 +1,22 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
 import { useRoute } from "vue-router";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import router from "@/router";
 import { Problem } from "@/types/Problem";
 
-onMounted(() => {
-  fetchProblems(route.path);
-});
+const headers = ["문제번호", "제목", "문제집번호", "활성화", "수정"] as const;
 
 const route = useRoute();
-
-const headers = ["문제번호", "제목", "문제집번호", "활성화", "수정"] as const;
 const problems = ref<Problem[]>([
   {
-    problemId: "sfadljkdfsakjl",
+    problemId: "1",
     title: "제목",
     description: "설명",
-    workBookId: "sfadljkdfsakjl",
+    workBookId: "1",
     isActive: true,
   },
-]); // todo: get problems
-
-const fetchProblems = async (url: string): Promise<void> => {
-  await fetch("/api/problems");
-};
+]);
 
 const toggleProblemActiveness = async (problem: Problem): Promise<void> => {
   const targetProblem = problems.value.find(
@@ -36,9 +28,11 @@ const toggleProblemActiveness = async (problem: Problem): Promise<void> => {
   // todo: isActive patch request
 };
 
-const moveToProblemEditPage = (problemId: string) =>
-  router.push(`/manager/problems/${problemId}`);
-
+const moveToProblemEditPage = (problemId: string) => {
+  let s = `/manager/problems/${problemId}`;
+  console.log(s);
+  router.push(s);
+};
 const moveToProblemRegisterPage = () =>
   router.push("/manager/problems/registration");
 </script>

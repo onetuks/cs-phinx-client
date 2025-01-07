@@ -14,34 +14,34 @@ const routes = [
   {
     path: "/manager/problems",
     name: "문제 관리",
-    component: () => import("@/pages/manager/problems/ProblemsManager.vue"),
+    component: () => import("@/pages/manager/problems/ProblemsManagerPage.vue"),
   },
   {
     path: "/manager/problems/choices",
     name: "객관식",
-    component: () => import("@/pages/manager/problems/ProblemsManager.vue"),
+    component: () => import("@/pages/manager/problems/ProblemsManagerPage.vue"),
   },
   {
     path: "/manager/problems/shorts",
     name: "단답형",
-    component: () => import("@/pages/manager/problems/ProblemsManager.vue"),
+    component: () => import("@/pages/manager/problems/ProblemsManagerPage.vue"),
   },
   {
     path: "/manager/problems/descriptions",
     name: "서술형",
-    component: () => import("@/pages/manager/problems/ProblemsManager.vue"),
+    component: () => import("@/pages/manager/problems/ProblemsManagerPage.vue"),
   },
   {
-    path: "/manager/problems/:problem-id",
+    path: "/manager/problems/:problemId",
     name: "문제 상세 관리",
     component: () =>
-      import("@/pages/manager/problems/ProblemDetailManager.vue"),
+      import("@/pages/manager/problems/ProblemDetailManagerPage.vue"),
   },
   {
     path: "/manager/problems/registration",
     name: "문제 등록",
     component: () =>
-      import("@/pages/manager/problems/ProblemRegisterManager.vue"),
+      import("@/pages/manager/problems/ProblemDetailManagerPage.vue"),
   },
   {
     path: "/manager/workbooks",
@@ -50,7 +50,7 @@ const routes = [
       import("@/pages/manager/workbooks/WorkBooksManagerPage.vue"),
   },
   {
-    path: "/manager/workbooks/:workbook-id",
+    path: "/manager/workbooks/:workbookId",
     name: "문제집 상세 관리",
     component: () =>
       import("@/pages/manager/workbooks/WorkBookDetailManagerPage.vue"),

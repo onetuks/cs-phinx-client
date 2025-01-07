@@ -4,7 +4,7 @@ import { useRoute } from "vue-router";
 import { Problem } from "@/types/Problem";
 import { initialWorkBook, WorkBook } from "@/types/WorkBook";
 import ProblemCandidatesTable from "@/pages/manager/workbooks/components/ProblemCandidatesTable.vue";
-import WorkBookManagerButton from "@/pages/manager/workbooks/components/WorkBookManagerButton.vue";
+import ManagerButton from "@/components/widgets/ManagerButton.vue";
 import WorkBookInfoView from "@/pages/manager/workbooks/components/WorkBookInfoView.vue";
 
 const route = useRoute();
@@ -30,7 +30,6 @@ const handleToggleProblem = (problem: Problem, toIncluded: boolean): void => {
 
 const updateWorkBook = (updatedWorkBook: WorkBook): void => {
   workBook.value = { ...updatedWorkBook };
-  console.log(workBook.value);
 };
 
 const registerWorkBook = async (): Promise<void> => {};
@@ -64,21 +63,20 @@ const removeWorkBook = async (): Promise<void> => {};
       />
     </div>
 
-    <div class="flex flex-row justify-end space-x-4">
-      <work-book-manager-button
+    <div class="flex flex-row justify-end space-x-4" v-if="isForRegistration">
+      <manager-button
         :click-button-type="'등록하기'"
-        v-if="isForRegistration"
         @click="registerWorkBook"
       />
-      <work-book-manager-button
+    </div>
+    <div class="flex flex-row justify-end space-x-4" v-else>
+      <manager-button
         :click-button-type="'수정하기'"
         @click-button="editWorkBook"
-        v-else
       />
-      <work-book-manager-button
+      <manager-button
         :click-button-type="'삭제하기'"
         @click-button="removeWorkBook"
-        v-else
       />
     </div>
   </div>
