@@ -16,6 +16,7 @@ const problems = ref<Problem[]>([
   {
     problemId: "sfadljkdfsakjl",
     title: "제목",
+    description: "설명",
     workBookId: "sfadljkdfsakjl",
     isActive: true,
   },
@@ -37,13 +38,24 @@ const toggleProblemActiveness = async (problem: Problem): Promise<void> => {
 
 const moveToProblemEditPage = (problemId: string) =>
   router.push(`/manager/problems/${problemId}`);
+
+const moveToProblemRegisterPage = () =>
+  router.push("/manager/problems/registration");
 </script>
 
 <template>
   <div class="flex flex-col px-10">
-    <h1 class="text-4xl text-left text-gray-600 px-10 py-5">
-      {{ route.name }}
-    </h1>
+    <div class="flex flex-row justify-between items-center">
+      <h1 class="text-4xl text-left text-gray-600 px-10 py-5">
+        {{ route.name }}
+      </h1>
+      <button
+        class="bg-secondary text-white rounded-lg px-4 py-2 hover:bg-primary h-fit"
+        @click="moveToProblemRegisterPage"
+      >
+        문제 등록하기
+      </button>
+    </div>
     <table class="table-auto border border-gray-200">
       <thead>
         <tr class="bg-gray-100 text-gray-700">
@@ -98,6 +110,22 @@ const moveToProblemEditPage = (problemId: string) =>
         </tr>
       </tbody>
     </table>
+
+    <div class="flex flex-row justify-end space-x-5 my-5">
+      <button
+        class="bg-secondary text-white rounded-lg px-4 py-2 hover:bg-primary"
+        @click="fetchPrevPage"
+      >
+        <font-awesome-icon :icon="['fas', 'left-long']" />
+      </button>
+
+      <button
+        class="bg-secondary text-white rounded-lg px-4 py-2 hover:bg-primary"
+        @click="fetchPostPage"
+      >
+        <font-awesome-icon :icon="['fas', 'right-long']" />
+      </button>
+    </div>
   </div>
 </template>
 

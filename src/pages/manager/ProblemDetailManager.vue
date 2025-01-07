@@ -9,6 +9,7 @@ const route = useRoute();
 const problem = ref<Problem>({
   problemId: "1",
   title: "DB 인덱스의 장단점에 대해서 말해주세요.",
+  description: "설명",
   workBookId: "a",
   isActive: false,
 });

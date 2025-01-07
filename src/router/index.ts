@@ -36,6 +36,11 @@ const routes = [
     name: "문제 상세 관리",
     component: () => import("@/pages/manager/ProblemDetailManager.vue"),
   },
+  {
+    path: "/manager/problems/registration",
+    name: "문제 등록",
+    component: () => import("@/pages/manager/ProblemRegisterManager.vue"),
+  },
 ];
 
 const router = createRouter({
