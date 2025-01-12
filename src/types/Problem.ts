@@ -1,15 +1,34 @@
 export interface Problem {
-  problemId: string;
+  problemId: number;
   title: string;
   description: string;
-  workBookId: string;
+  difficulty: Difficulty;
+  topic: Topic;
+  tags: string[];
   isActive: boolean;
+  updateAt: Date;
 }
 
 export const initialProblem: Problem = {
-  problemId: "",
+  problemId: -1,
   title: "",
   description: "",
-  workBookId: "",
+  difficulty: "EASY",
+  topic: "COMPUTER_ARCHITECTURE",
+  tags: [],
   isActive: true,
+  updateAt: new Date(),
 };
+
+export type Difficulty = "EASY" | "MEDIUM" | "HARD";
+export type Topic =
+  | "PROGRAMMING_LANGUAGE"
+  | "DATA_STRUCTURES"
+  | "ALGORITHMS"
+  | "DATABASES"
+  | "OPERATING_SYSTEMS"
+  | "NETWORKING"
+  | "SOFTWARE_ENGINEERING"
+  | "COMPUTER_ARCHITECTURE"
+  | "SOFTWARE_TOOLS"
+  | "WEB_DEVELOPMENT";
