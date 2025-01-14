@@ -1,40 +1,49 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import router from "@/router";
 import { Problem } from "@/types/Problem";
+import { ProblemApis } from "@/apis/ProblemApis";
+import { emptyPage, Page } from "@/apis/PageUtil";
 
-const headers = ["문제번호", "제목", "문제집번호", "활성화", "수정"] as const;
+const headers = [
+  "문제번호",
+  "제목",
+  "난이도",
+  "주제",
+  "활성화",
+  "수정(일)",
+] as const;
 
 const route = useRoute();
-const problems = ref<Problem[]>([
-  {
-    problemId: "1",
-    title: "제목",
-    description: "설명",
-    workBookId: "1",
-    isActive: true,
-  },
-]);
+const problems = ref<Page<Problem>>(emptyPage());
 
 const toggleProblemActiveness = async (problem: Problem): Promise<void> => {
-  const targetProblem = problems.value.find(
+  const targetProblem = problems.value.content.find(
     (p) => p.problemId === problem.problemId
   );
   if (!targetProblem) return;
   targetProblem.isActive = !targetProblem.isActive;
 
-  // todo: isActive patch request
+  await ProblemApis.patchProblem(
+    problem.problemId,
+    ProblemApis.convertToCommand(problem)
+  );
 };
 
-const moveToProblemEditPage = (problemId: string) => {
-  let s = `/manager/problems/${problemId}`;
-  console.log(s);
-  router.push(s);
-};
+const moveToProblemEditPage = (problemId: string) =>
+  router.push(`/manager/problems/${problemId}`);
 const moveToProblemRegisterPage = () =>
   router.push("/manager/problems/registration");
+
+onMounted(() => fetchProblems());
+
+const fetchProblems = async () => {
+  await ProblemApis.getProblems(problems.value.number).then(
+    (res) => (problems.value = res)
+  );
+};
 </script>
 
 <template>
@@ -64,7 +73,7 @@ const moveToProblemRegisterPage = () =>
       </thead>
       <tbody>
         <tr
-          v-for="(problem, index) in problems"
+          v-for="(problem, index) in problems.content"
           :key="index"
           class="hover:bg-gray-50"
         >
@@ -73,8 +82,9 @@ const moveToProblemRegisterPage = () =>
           </td>
           <td class="px-4 py-2 border border-gray-300">{{ problem.title }}</td>
           <td class="px-4 py-2 border border-gray-300">
-            {{ problem.workBookId }}
+            {{ problem.difficulty }}
           </td>
+          <td class="px-4 py-2 border border-gray-300">{{ problem.topic }}</td>
           <td
             class="px-4 py-2 border border-gray-300 flex justify-center items-center"
           >
@@ -100,6 +110,7 @@ const moveToProblemRegisterPage = () =>
             >
               <font-awesome-icon :icon="['fas', 'pen-to-square']" />
             </div>
+            <p>{{ problem.updateAt }}</p>
           </td>
         </tr>
       </tbody>
