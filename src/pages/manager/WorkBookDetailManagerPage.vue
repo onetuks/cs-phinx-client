@@ -3,9 +3,9 @@ import { ref } from "vue";
 import { useRoute } from "vue-router";
 import { Problem } from "@/types/Problem";
 import { initialWorkBook, WorkBook } from "@/types/WorkBook";
-import ProblemCandidatesTable from "@/pages/manager/workbooks/components/ProblemCandidatesTable.vue";
+import ProblemCandidatesTable from "@/pages/manager/components/ProblemCandidatesTable.vue";
 import ManagerButton from "@/components/widgets/ManagerButton.vue";
-import WorkBookInfoView from "@/pages/manager/workbooks/components/WorkBookInfoView.vue";
+import WorkBookInfoView from "@/pages/manager/components/WorkBookInfoView.vue";
 
 const route = useRoute();
 const workBook = ref<WorkBook>(initialWorkBook);
