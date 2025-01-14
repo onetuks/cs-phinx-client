@@ -32,3 +32,17 @@ export type Topic =
   | "COMPUTER_ARCHITECTURE"
   | "SOFTWARE_TOOLS"
   | "WEB_DEVELOPMENT";
+
+export const Difficulties: Difficulty[] = ["EASY", "MEDIUM", "HARD"];
+export const Topics: Topic[] = [
+  "PROGRAMMING_LANGUAGE",
+  "DATA_STRUCTURES",
+  "ALGORITHMS",
+  "DATABASES",
+  "OPERATING_SYSTEMS",
+  "NETWORKING",
+  "SOFTWARE_ENGINEERING",
+  "COMPUTER_ARCHITECTURE",
+  "SOFTWARE_TOOLS",
+  "WEB_DEVELOPMENT",
+];
