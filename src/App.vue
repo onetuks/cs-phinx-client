@@ -3,7 +3,7 @@
     <Header />
     <div class="flex flex-row">
       <side-bar v-if="isManagerPage" />
-      <router-view class="flex-grow" />
+      <router-view class="flex-grow bg-gray-200" :key="$route.fullPath" />
     </div>
     <Footer v-if="!isManagerPage" />
   </div>

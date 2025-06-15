@@ -6,6 +6,7 @@ import router from "@/router";
 import { Problem } from "@/types/Problem";
 import { ProblemApis } from "@/apis/ProblemApis";
 import { emptyPage, Page } from "@/apis/PageUtil";
+import { AnswerTypeUtil } from "@/types/Answer";
 
 const headers = [
   "문제번호",
@@ -40,9 +41,12 @@ const moveToProblemRegisterPage = () =>
 onMounted(() => fetchProblems());
 
 const fetchProblems = async () => {
-  await ProblemApis.getProblems(problems.value.number).then(
-    (res) => (problems.value = res)
-  );
+  await ProblemApis.getProblems(
+    problems.value.number,
+    AnswerTypeUtil.toAnswerType(route.fullPath)
+  ).then((res) => {
+    problems.value = res;
+  });
 };
 </script>
 
@@ -110,7 +114,18 @@ const fetchProblems = async () => {
             >
               <font-awesome-icon :icon="['fas', 'pen-to-square']" />
             </div>
-            <p>{{ problem.updateAt }}</p>
+            <p>
+              {{
+                new Intl.DateTimeFormat("ko-GB", {
+                  year: "numeric",
+                  day: "2-digit",
+                  month: "2-digit",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  hour12: false,
+                }).format(new Date(problem.updatedAt))
+              }}
+            </p>
           </td>
         </tr>
       </tbody>

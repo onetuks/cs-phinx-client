@@ -1,6 +1,7 @@
 import { arrayToDate, get, patch, post, remove } from "@/apis/ApiRequestUtil";
 import { Difficulty, Problem, Topic } from "@/types/Problem";
-import { buildPageQuery, Page } from "@/apis/PageUtil";
+import { Page, PageUtil } from "@/apis/PageUtil";
+import { AnswerType } from "@/types/Answer";
 
 export interface ProblemCommand {
   title: string;
@@ -43,16 +44,22 @@ export const ProblemApis = {
       (res) => res as Problem
     );
   },
-  getProblems: async (page: number): Promise<Page<Problem>> => {
-    return await get(`${ProblemApis.BASE_URI}${buildPageQuery(page)}`).then(
-      (res) => {
-        const responses = res as Page<Problem>;
-        responses.content.forEach(
-          (problem) => (problem.updateAt = arrayToDate(problem.updateAt))
-        );
-        return responses;
-      }
-    );
+  getProblems: async (
+    page: number,
+    answerType: AnswerType
+  ): Promise<Page<Problem>> => {
+    return await get(
+      PageUtil.buildPageQuery(
+        `${ProblemApis.BASE_URI}?answer-type=${answerType}`,
+        page
+      )
+    ).then((res) => {
+      const responses = res as Page<Problem>;
+      responses.content.forEach(
+        (problem) => (problem.updateAt = arrayToDate(problem.updateAt))
+      );
+      return responses;
+    });
   },
   patchProblem: async (problemId: number, body: ProblemCommand) => {
     await patch(`${ProblemApis.BASE_URI}/${problemId}`, body);

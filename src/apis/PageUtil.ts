@@ -58,11 +58,17 @@ export const emptyPage = <T>(): Page<T> => {
   };
 };
 
-export const buildPageQuery = (page?: number, size?: number): string => {
-  let query = "";
-  query += page || size ? "?" : "";
-  query += page ? `page=${page - 1}` : "";
-  query += page && size ? "&" : "";
-  query += size ? `size=${size}` : "";
-  return query;
+export const PageUtil = {
+  buildPageQuery: (
+    originQuery: string,
+    page?: number,
+    size?: number
+  ): string => {
+    let query = originQuery;
+    query += (page || size) && !originQuery.includes("?") ? "?" : "&";
+    query += page ? `page=${page - 1}` : "";
+    query += page && size ? "&" : "";
+    query += size ? `size=${size}` : "";
+    return query;
+  },
 };

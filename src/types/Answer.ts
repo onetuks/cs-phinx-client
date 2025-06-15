@@ -14,3 +14,11 @@ export const initialAnswer = {
   answerType: AnswerTypes[0],
   answerValues: [],
 };
+
+export const AnswerTypeUtil = {
+  toAnswerType: (answerTypeString: string): AnswerType => {
+    return AnswerTypes.filter((answerType) =>
+      answerTypeString.toUpperCase().includes(answerType)
+    )[0];
+  },
+};
