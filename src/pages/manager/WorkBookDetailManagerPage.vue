@@ -30,6 +30,7 @@ const handleToggleProblem = (problem: Problem, toIncluded: boolean): void => {
 
 const updateWorkBook = (updatedWorkBook: WorkBook): void => {
   workBook.value = { ...updatedWorkBook };
+  console.log(workBook.value);
 };
 
 const registerWorkBook = async (): Promise<void> => {};

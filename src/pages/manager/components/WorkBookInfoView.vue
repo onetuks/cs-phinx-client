@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { initialWorkBook, WorkBook } from "@/types/WorkBook";
 import { ref, watch } from "vue";
+import { initialWorkBook, WorkBook } from "@/types/WorkBook";
 
 const props = defineProps<{
   workBook: WorkBook;
@@ -21,7 +21,12 @@ watch(
 );
 watch(
   () => localWorkBook.value,
-  (newVal) => emits("update:workBook", newVal),
+  (newVal) => {
+    if (localWorkBook.value === newVal) {
+      return;
+    }
+    emits("update:workBook", newVal);
+  },
   { deep: true }
 );
 </script>
