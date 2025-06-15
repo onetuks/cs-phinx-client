@@ -8,6 +8,7 @@ import {
   faLeftLong,
   faPenToSquare,
   faRightLong,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 
 createApp(App).use(router).use(toast).mount("#app");
@@ -15,3 +16,4 @@ createApp(App).use(router).use(toast).mount("#app");
 library.add(faPenToSquare);
 library.add(faLeftLong);
 library.add(faRightLong);
+library.add(faTrash);

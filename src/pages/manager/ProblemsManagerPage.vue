@@ -7,6 +7,8 @@ import { Problem } from "@/types/Problem";
 import { ProblemApis } from "@/apis/ProblemApis";
 import { emptyPage, Page } from "@/apis/PageUtil";
 import { AnswerTypeUtil } from "@/types/Answer";
+import { useToast } from "vue-toastification";
+import { PROBLEM_REMOVE_SUCCESS } from "@/consts/Messages";
 
 const headers = [
   "문제번호",
@@ -14,10 +16,12 @@ const headers = [
   "난이도",
   "주제",
   "활성화",
-  "수정(일)",
+  "수정일",
+  "편집",
 ] as const;
 
 const route = useRoute();
+const toast = useToast();
 const problems = ref<Page<Problem>>(emptyPage());
 
 const toggleProblemActiveness = async (problem: Problem): Promise<void> => {
@@ -31,6 +35,12 @@ const toggleProblemActiveness = async (problem: Problem): Promise<void> => {
     problem.problemId,
     ProblemApis.convertToCommand(problem)
   );
+};
+
+const removeProblem = async (problemId: number): Promise<void> => {
+  await ProblemApis.deleteProblem(problemId).then(() => {
+    toast.success(PROBLEM_REMOVE_SUCCESS);
+  });
 };
 
 const moveToProblemEditPage = (problemId: string) =>
@@ -89,31 +99,21 @@ const fetchProblems = async () => {
             {{ problem.difficulty }}
           </td>
           <td class="px-4 py-2 border border-gray-300">{{ problem.topic }}</td>
-          <td
-            class="px-4 py-2 border border-gray-300 flex justify-center items-center"
-          >
-            <div
-              @click="toggleProblemActiveness(problem)"
-              class="w-12 h-6 flex items-center cursor-pointer rounded-full"
-              :class="problem.isActive ? 'bg-secondary' : 'bg-gray-300'"
-            >
+          <td class="px-4 py-2 border border-gray-300">
+            <div class="flex flex-grow items-center justify-center">
               <div
-                class="w-4 h-4 bg-white rounded-full shadow transform transition-transform duration-300"
-                :class="problem.isActive ? 'translate-x-6' : 'translate-x-2'"
-              ></div>
+                @click="toggleProblemActiveness(problem)"
+                class="w-12 h-6 flex items-center cursor-pointer rounded-full"
+                :class="problem.isActive ? 'bg-secondary' : 'bg-gray-300'"
+              >
+                <div
+                  class="w-4 h-4 bg-white rounded-full shadow transform transition-transform duration-300"
+                  :class="problem.isActive ? 'translate-x-6' : 'translate-x-2'"
+                ></div>
+              </div>
             </div>
           </td>
-          <td class="px4 border border-gray-300">
-            <div
-              :class="[
-                'w-8 h-6  flex justify-center items-center mx-auto rounded-md ',
-                'shadow transform transition-transform duration-300',
-                'bg-secondary hover:bg-primary',
-              ]"
-              @click="moveToProblemEditPage(problem.problemId)"
-            >
-              <font-awesome-icon :icon="['fas', 'pen-to-square']" />
-            </div>
+          <td class="px-4 py-2 border border-gray-300">
             <p>
               {{
                 new Intl.DateTimeFormat("ko-GB", {
@@ -126,6 +126,31 @@ const fetchProblems = async () => {
                 }).format(new Date(problem.updatedAt))
               }}
             </p>
+          </td>
+          <td class="px-4 py-2 border border-gray-300">
+            <div class="flex flex-grow justify-between">
+              <div
+                :class="[
+                  'w-8 h-6  flex justify-center items-center mx-auto rounded-md ',
+                  'shadow transform transition-transform duration-300',
+                  'bg-secondary hover:bg-primary',
+                ]"
+                @click="moveToProblemEditPage(problem.problemId)"
+              >
+                <font-awesome-icon :icon="['fas', 'pen-to-square']" />
+              </div>
+
+              <div
+                :class="[
+                  'w-8 h-6  flex justify-center items-center mx-auto rounded-md ',
+                  'shadow transform transition-transform duration-300',
+                  'bg-secondary hover:bg-primary',
+                ]"
+                @click="removeProblem(problem.problemId)"
+              >
+                <font-awesome-icon :icon="['fas', 'trash']" />
+              </div>
+            </div>
           </td>
         </tr>
       </tbody>

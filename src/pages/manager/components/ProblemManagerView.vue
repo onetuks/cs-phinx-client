@@ -5,12 +5,12 @@ import { ProblemApis } from "@/apis/ProblemApis";
 import { useRoute } from "vue-router";
 import { useToast } from "vue-toastification";
 import { Problem } from "@/types/Problem";
-
-const INVALID_PROBLEM_COMMAND =
-  "문제 정보가 충분히 기입되지 않았습니다" as const;
-const PROBLEM_REGISTER_SUCCESS = "문제가 성공적으로 등록되었습니다" as const;
-const PROBLEM_EDIT_SUCCESS = "문제가 성공적으로 수정되었습니다" as const;
-const PROBLEM_REMOVE_SUCCESS = "문제가 성공적으로 삭제되었습니다" as const;
+import {
+  INVALID_PROBLEM_COMMAND,
+  PROBLEM_EDIT_SUCCESS,
+  PROBLEM_REGISTER_SUCCESS,
+  PROBLEM_REMOVE_SUCCESS,
+} from "@/consts/Messages";
 
 const problem = defineModel("problem", {
   required: true,
