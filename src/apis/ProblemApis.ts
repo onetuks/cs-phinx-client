@@ -48,11 +48,11 @@ export const ProblemApis = {
     page: number,
     answerType: AnswerType
   ): Promise<Page<Problem>> => {
+    const queryParam =
+      answerType === undefined ? "" : `?answer-type=${answerType}`;
+
     return await get(
-      PageUtil.buildPageQuery(
-        `${ProblemApis.BASE_URI}?answer-type=${answerType}`,
-        page
-      )
+      PageUtil.buildPageQuery(ProblemApis.BASE_URI + queryParam, page)
     ).then((res) => {
       const responses = res as Page<Problem>;
       responses.content.forEach(
