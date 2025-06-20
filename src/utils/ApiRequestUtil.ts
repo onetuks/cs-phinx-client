@@ -1,5 +1,5 @@
-import axios from "axios";
-import { handleApiError } from "@/apis/ApiErrorUtil";
+import axios, { AxiosResponse } from "axios";
+import { handleApiError } from "@/utils/ApiErrorUtil";
 
 const BASE_SERVER_URL = "http://localhost:8080/api" as const;
 const REQUEST_CONFIG = {
@@ -20,14 +20,19 @@ export const get = async (uri: string): Promise<object> => {
 };
 
 export const post = async (uri: string, body?: object): Promise<number> => {
+  function extractLocationHeader(res: AxiosResponse) {
+    const locationHeader = res.headers["location"];
+    if (!locationHeader) {
+      throw new Error("Location Header is missing in the response");
+    }
+    return locationHeader;
+  }
+
   return await axios
     .post(BASE_SERVER_URL + uri, body, REQUEST_CONFIG)
     .then((res) => {
       console.log(`[POST] ${uri} - `, res);
-      const locationHeader = res.headers["location"];
-      if (!locationHeader) {
-        throw new Error("Location Header is missing in the response");
-      }
+      const locationHeader = extractLocationHeader(res);
       return parseInt(locationHeader.split("/").pop() || "", 10);
     })
     .catch((err) => {
@@ -48,9 +53,4 @@ export const remove = async (uri: string): Promise<void> => {
     .delete(BASE_SERVER_URL + uri, REQUEST_CONFIG)
     .then((res) => console.log(`[DELETE] ${uri} - `, res))
     .catch(handleApiError);
-};
-
-export const arrayToDate = (date: Date): Date => {
-  const dateArray: number[] = Array.isArray(date) ? (date as number[]) : [];
-  return new Date(dateArray[0], dateArray[1] - 1, dateArray[2]);
 };

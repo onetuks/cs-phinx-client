@@ -1,16 +1,9 @@
-import { arrayToDate, get, patch, post, remove } from "@/apis/ApiRequestUtil";
-import { Difficulty, Problem, Topic } from "@/types/Problem";
-import { Page, PageUtil } from "@/apis/PageUtil";
+import { get, patch, post, remove } from "@/utils/ApiRequestUtil";
+import { Problem } from "@/types/Problem";
+import { Page, PageUtil } from "@/utils/PageUtil";
 import { AnswerType } from "@/types/Answer";
-
-export interface ProblemCommand {
-  title: string;
-  description: string;
-  difficulty: Difficulty;
-  topic: Topic;
-  tags: string[];
-  isActive: boolean;
-}
+import { ProblemCommand } from "@/apis/commands/ProblemCommand";
+import { ProblemResponse } from "@/apis/responses/ProblemResponse";
 
 export const ProblemApis = {
   BASE_URI: "/problems",

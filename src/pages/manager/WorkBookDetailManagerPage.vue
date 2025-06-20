@@ -14,7 +14,7 @@ import {
   WORKBOOK_EDIT_SUCCESS,
   WORKBOOK_REGISTER_SUCCESS,
   WORKBOOK_REMOVE_SUCCESS,
-} from "@/consts/Messages";
+} from "@/utils/ToastUtil";
 
 const route = useRoute();
 const toast = useToast();

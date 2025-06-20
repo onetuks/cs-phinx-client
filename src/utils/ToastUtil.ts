@@ -1,3 +1,7 @@
+import { useToast } from "vue-toastification";
+
+export const toaster = useToast();
+
 // Problem
 export const INVALID_PROBLEM_COMMAND =
   "문제 정보가 충분히 기입되지 않았습니다" as const;

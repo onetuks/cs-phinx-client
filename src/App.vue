@@ -11,9 +11,9 @@
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
+import { useRoute } from "vue-router";
 import Footer from "@/components/layouts/Footer.vue";
 import Header from "@/components/layouts/Header.vue";
-import { useRoute } from "vue-router";
 import SideBar from "@/components/layouts/SideBar.vue";
 
 @Options({

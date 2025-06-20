@@ -1,8 +1,8 @@
-import { arrayToDate, get, patch, post, remove } from "@/apis/ApiRequestUtil";
+import { arrayToDate, get, patch, post, remove } from "@/utils/ApiRequestUtil";
 import { CollectionType, Workbook } from "@/types/Workbook";
 import { Problem } from "@/types/Problem";
-import { Page, PageUtil } from "@/apis/PageUtil";
-import { INVALID_WORKBOOK_COMMAND } from "@/consts/Messages";
+import { Page, PageUtil } from "@/utils/PageUtil";
+import { INVALID_WORKBOOK_COMMAND } from "@/utils/ToastUtil";
 
 export interface WorkbookCommand {
   title: string;

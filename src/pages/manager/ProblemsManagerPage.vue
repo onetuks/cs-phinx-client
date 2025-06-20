@@ -5,10 +5,10 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import router from "@/router";
 import { Problem } from "@/types/Problem";
 import { ProblemApis } from "@/apis/ProblemApis";
-import { emptyPage, Page } from "@/apis/PageUtil";
+import { Page, PageUtil } from "@/utils/PageUtil";
 import { AnswerTypeUtil } from "@/types/Answer";
-import { useToast } from "vue-toastification";
-import { PROBLEM_REMOVE_SUCCESS } from "@/consts/Messages";
+import { PROBLEM_REMOVE_SUCCESS, toaster } from "@/utils/ToastUtil";
+import { ProblemCommand } from "@/apis/commands/ProblemCommand";
 
 const headers = [
   "문제번호",
@@ -21,8 +21,7 @@ const headers = [
 ] as const;
 
 const route = useRoute();
-const toast = useToast();
-const problems = ref<Page<Problem>>(emptyPage());
+const problems = ref<Page<Problem>>(PageUtil.emptyPage());
 
 const toggleProblemActiveness = async (problem: Problem): Promise<void> => {
   const targetProblem = problems.value.content.find(
@@ -39,7 +38,7 @@ const toggleProblemActiveness = async (problem: Problem): Promise<void> => {
 
 const removeProblem = async (problemId: number): Promise<void> => {
   await ProblemApis.deleteProblem(problemId).then(() => {
-    toast.success(PROBLEM_REMOVE_SUCCESS);
+    toaster.success(PROBLEM_REMOVE_SUCCESS);
   });
 };
 
@@ -114,18 +113,7 @@ const fetchProblems = async () => {
             </div>
           </td>
           <td class="px-4 py-2 border border-gray-300">
-            <p>
-              {{
-                new Intl.DateTimeFormat("ko-GB", {
-                  year: "numeric",
-                  day: "2-digit",
-                  month: "2-digit",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  hour12: false,
-                }).format(new Date(problem.updatedAt))
-              }}
-            </p>
+            <p>{{ DateUtil.formatDate(problem.updatedAt) }}</p>
           </td>
           <td class="px-4 py-2 border border-gray-300">
             <div class="flex flex-grow justify-between">

@@ -1,5 +1,5 @@
 import { Answer, AnswerType } from "@/types/Answer";
-import { get, patch, post, remove } from "@/apis/ApiRequestUtil";
+import { get, patch, post, remove } from "@/utils/ApiRequestUtil";
 
 export interface AnswerCommand {
   problemId: number;

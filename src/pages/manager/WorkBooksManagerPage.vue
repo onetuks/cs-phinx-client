@@ -5,7 +5,7 @@ import { useRoute } from "vue-router";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { Workbook } from "@/types/Workbook";
 import { WorkbookApis } from "@/apis/WorkbookApis";
-import { emptyPage, Page } from "@/apis/PageUtil";
+import { emptyPage, Page } from "@/utils/PageUtil";
 
 const headers: string[] = ["번호", "제목", "타입", "활성화", "수정일", "편집"];
 

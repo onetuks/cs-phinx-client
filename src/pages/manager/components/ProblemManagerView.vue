@@ -3,14 +3,13 @@ import ProblemInfoView from "@/pages/manager/components/ProblemInfoView.vue";
 import ManagerButton from "@/components/widgets/ManagerButton.vue";
 import { ProblemApis } from "@/apis/ProblemApis";
 import { useRoute } from "vue-router";
-import { useToast } from "vue-toastification";
 import { Problem } from "@/types/Problem";
 import {
-  INVALID_PROBLEM_COMMAND,
   PROBLEM_EDIT_SUCCESS,
   PROBLEM_REGISTER_SUCCESS,
   PROBLEM_REMOVE_SUCCESS,
-} from "@/consts/Messages";
+  toaster,
+} from "@/utils/ToastUtil";
 
 const problem = defineModel("problem", {
   required: true,
@@ -18,7 +17,6 @@ const problem = defineModel("problem", {
 });
 
 const route = useRoute();
-const toast = useToast();
 
 const isForRegistration: boolean = route.path.includes("/registration");
 
@@ -48,7 +46,7 @@ const editProblem = async () => {
 };
 const removeProblem = async () => {
   await ProblemApis.deleteProblem(problem.value.problemId).then(() => {
-    toast.success(PROBLEM_REMOVE_SUCCESS);
+    toaster.success(PROBLEM_REMOVE_SUCCESS);
   });
 };
 </script>

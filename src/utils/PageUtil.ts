@@ -27,37 +27,6 @@ export interface Pageable {
   paged: boolean;
 }
 
-export const emptyPage = <T>(): Page<T> => {
-  return {
-    content: [],
-    empty: true,
-    first: true,
-    last: true,
-    number: 1,
-    numberOfElements: 0,
-    size: 5,
-    sort: {
-      empty: true,
-      unsorted: true,
-      sorted: false,
-    },
-    totalElements: 0,
-    totalPages: 0,
-    pageable: {
-      pageNumber: 0,
-      pageSize: 0,
-      sort: {
-        empty: true,
-        unsorted: true,
-        sorted: false,
-      },
-      offset: 0,
-      unpaged: true,
-      paged: false,
-    },
-  };
-};
-
 export const PageUtil = {
   buildPageQuery: (
     originQuery: string,
@@ -70,5 +39,35 @@ export const PageUtil = {
     query += page && size ? "&" : "";
     query += size ? `size=${size}` : "";
     return query;
+  },
+  emptyPage: <T>(): Page<T> => {
+    return {
+      content: [],
+      empty: true,
+      first: true,
+      last: true,
+      number: 1,
+      numberOfElements: 0,
+      size: 5,
+      sort: {
+        empty: true,
+        unsorted: true,
+        sorted: false,
+      },
+      totalElements: 0,
+      totalPages: 0,
+      pageable: {
+        pageNumber: 0,
+        pageSize: 0,
+        sort: {
+          empty: true,
+          unsorted: true,
+          sorted: false,
+        },
+        offset: 0,
+        unpaged: true,
+        paged: false,
+      },
+    };
   },
 };
