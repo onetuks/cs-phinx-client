@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { Workbook } from "@/types/Workbook";
 import { WorkbookApis } from "@/apis/WorkbookApis";
 import { emptyPage, Page } from "@/utils/PageUtil";
+import { DateUtil } from "@/utils/DateUtil";
 
 const headers: string[] = ["번호", "제목", "타입", "활성화", "수정일", "편집"];
 
@@ -85,7 +86,7 @@ const fetchWorkbooks = async (): Promise<void> => {
 
           <td
             class="px-4 py-2 border border-gray-300"
-            v-text="formatDate(workbook.updatedAt)"
+            v-text="DateUtil.formatDate(workbook.updatedAt)"
           ></td>
 
           <td class="px4 border border-gray-300">

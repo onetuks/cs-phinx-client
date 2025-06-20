@@ -10,6 +10,7 @@ import {
   PROBLEM_REMOVE_SUCCESS,
   toaster,
 } from "@/utils/ToastUtil";
+import { ProblemCommand } from "@/apis/commands/ProblemCommand";
 
 const problem = defineModel("problem", {
   required: true,
@@ -21,28 +22,20 @@ const route = useRoute();
 const isForRegistration: boolean = route.path.includes("/registration");
 
 const registerProblem = async () => {
-  try {
-    const problemCommand = ProblemApis.convertToCommand(problem.value);
-    ProblemApis.checkCommandValidity(problemCommand);
-    await ProblemApis.postNewProblem(problemCommand).then((problemId) => {
-      problem.value.problemId = problemId;
-      toast.success(PROBLEM_REGISTER_SUCCESS);
-    });
-  } catch (error) {
-    toast.error(INVALID_PROBLEM_COMMAND);
-  }
+  await ProblemApis.postNewProblem(
+    ProblemCommand.fromProblem(problem.value)
+  ).then((problemId) => {
+    problem.value.problemId = problemId;
+    toaster.success(PROBLEM_REGISTER_SUCCESS);
+  });
 };
 const editProblem = async () => {
-  try {
-    const problemCommand = ProblemApis.convertToCommand(problem.value);
-    ProblemApis.checkCommandValidity(problemCommand);
-    await ProblemApis.patchProblem(
-      problem.value.problemId,
-      problemCommand
-    ).then(() => toast.success(PROBLEM_EDIT_SUCCESS));
-  } catch (error) {
-    toast.error(INVALID_PROBLEM_COMMAND);
-  }
+  await ProblemApis.patchProblem(
+    problem.value.problemId,
+    ProblemCommand.fromProblem(problem.value)
+  ).then(() => {
+    toaster.success(PROBLEM_EDIT_SUCCESS);
+  });
 };
 const removeProblem = async () => {
   await ProblemApis.deleteProblem(problem.value.problemId).then(() => {

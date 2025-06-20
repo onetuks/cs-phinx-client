@@ -9,6 +9,7 @@ import { Page, PageUtil } from "@/utils/PageUtil";
 import { AnswerTypeUtil } from "@/types/Answer";
 import { PROBLEM_REMOVE_SUCCESS, toaster } from "@/utils/ToastUtil";
 import { ProblemCommand } from "@/apis/commands/ProblemCommand";
+import { DateUtil } from "@/utils/DateUtil";
 
 const headers = [
   "문제번호",
@@ -32,7 +33,7 @@ const toggleProblemActiveness = async (problem: Problem): Promise<void> => {
 
   await ProblemApis.patchProblem(
     problem.problemId,
-    ProblemApis.convertToCommand(problem)
+    ProblemCommand.fromProblem(problem)
   );
 };
 
@@ -42,7 +43,7 @@ const removeProblem = async (problemId: number): Promise<void> => {
   });
 };
 
-const moveToProblemEditPage = (problemId: string) =>
+const moveToProblemEditPage = (problemId: number) =>
   router.push(`/manager/problems/${problemId}`);
 const moveToProblemRegisterPage = () =>
   router.push("/manager/problems/registration");
@@ -51,12 +52,14 @@ onMounted(() => fetchProblems());
 
 const fetchProblems = async () => {
   await ProblemApis.getProblems(
-    problems.value.number,
-    AnswerTypeUtil.toAnswerType(route.fullPath)
+    AnswerTypeUtil.toAnswerType(route.fullPath),
+    problems.value.number
   ).then((res) => {
     problems.value = res;
   });
 };
+const fetchPrevPage = () => {};
+const fetchNextPage = () => {};
 </script>
 
 <template>
@@ -112,9 +115,10 @@ const fetchProblems = async () => {
               </div>
             </div>
           </td>
-          <td class="px-4 py-2 border border-gray-300">
-            <p>{{ DateUtil.formatDate(problem.updatedAt) }}</p>
-          </td>
+          <td
+            class="px-4 py-2 border border-gray-300"
+            v-text="DateUtil.formatDate(problem.updatedAt)"
+          ></td>
           <td class="px-4 py-2 border border-gray-300">
             <div class="flex flex-grow justify-between">
               <div
@@ -154,7 +158,7 @@ const fetchProblems = async () => {
 
       <button
         class="bg-secondary text-white rounded-lg px-4 py-2 hover:bg-primary"
-        @click="fetchPostPage"
+        @click="fetchNextPage"
       >
         <font-awesome-icon :icon="['fas', 'right-long']" />
       </button>

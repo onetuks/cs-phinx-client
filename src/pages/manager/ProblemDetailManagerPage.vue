@@ -13,14 +13,14 @@ const problem = ref<Problem>(initialProblem);
 const answer = ref<Answer>(initialAnswer);
 
 const fetchProblem = async (problemId: number) => {
-  await ProblemApis.getProblem(problemId).then(
-    (res) => (problem.value = res as Problem)
-  );
+  await ProblemApis.getProblem(problemId).then((res: Problem) => {
+    problem.value = res;
+  });
 };
 const fetchAnswer = async (problemId: number) => {
-  await AnswerApis.getAnswer(problemId).then(
-    (res) => (answer.value = res as Answer)
-  );
+  await AnswerApis.getAnswer(problemId).then((res: Answer) => {
+    answer.value = res;
+  });
 };
 
 onMounted(() => {

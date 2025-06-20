@@ -5,59 +5,42 @@ import { AnswerType } from "@/types/Answer";
 import { ProblemCommand } from "@/apis/commands/ProblemCommand";
 import { ProblemResponse } from "@/apis/responses/ProblemResponse";
 
+const BASE_URI = "/problems" as const;
+
 export const ProblemApis = {
-  BASE_URI: "/problems",
-  convertToCommand: (problem: Problem): ProblemCommand => {
-    return {
-      title: problem.title.trim(),
-      description: problem.description.trim(),
-      difficulty: problem.difficulty,
-      topic: problem.topic,
-      tags: problem.tags.filter((t) => t.trim().length > 0),
-      isActive: problem.isActive,
-    };
-  },
-  checkCommandValidity: (command: ProblemCommand) => {
-    if (
-      !command.title ||
-      !command.description ||
-      !command.difficulty ||
-      !command.topic ||
-      command.tags.length === 0 ||
-      !command.isActive
-    ) {
-      throw new Error("ProblemCommand is invalid");
-    }
-  },
   postNewProblem: async (body: ProblemCommand): Promise<number> => {
-    return await post(ProblemApis.BASE_URI, body);
+    return await post(BASE_URI, body);
   },
   getProblem: async (problemId: number): Promise<Problem> => {
-    return await get(`${ProblemApis.BASE_URI}/${problemId}`).then(
-      (res) => res as Problem
-    );
+    return await get(`${BASE_URI}/${problemId}`).then((res) => {
+      const problemResponse = res as ProblemResponse;
+      return ProblemResponse.toProblem(problemResponse);
+    });
   },
   getProblems: async (
-    page: number,
-    answerType: AnswerType
+    answerType?: AnswerType,
+    page?: number,
+    size?: number
   ): Promise<Page<Problem>> => {
     const queryParam =
       answerType === undefined ? "" : `?answer-type=${answerType}`;
+    const urlQuery = PageUtil.buildPageQuery(BASE_URI + queryParam, page, size);
 
-    return await get(
-      PageUtil.buildPageQuery(ProblemApis.BASE_URI + queryParam, page)
-    ).then((res) => {
-      const responses = res as Page<Problem>;
-      responses.content.forEach(
-        (problem) => (problem.updateAt = arrayToDate(problem.updateAt))
+    return await get(urlQuery).then((res) => {
+      const problemResponses = res as Page<ProblemResponse>;
+      const problems = res as Page<Problem>;
+      problemResponses.content.forEach(
+        (problemResponse: ProblemResponse, index: number) => {
+          problems.content[index] = ProblemResponse.toProblem(problemResponse);
+        }
       );
-      return responses;
+      return problems;
     });
   },
   patchProblem: async (problemId: number, body: ProblemCommand) => {
-    await patch(`${ProblemApis.BASE_URI}/${problemId}`, body);
+    await patch(`${BASE_URI}/${problemId}`, body);
   },
   deleteProblem: async (problemId: number) => {
-    await remove(`${ProblemApis.BASE_URI}/${problemId}`);
+    await remove(`${BASE_URI}/${problemId}`);
   },
 };

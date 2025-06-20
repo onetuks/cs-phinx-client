@@ -6,7 +6,7 @@ export interface Problem {
   topic: Topic;
   tags: string[];
   isActive: boolean;
-  updateAt: Date;
+  updatedAt: Date;
 }
 
 export const initialProblem: Problem = {
@@ -17,7 +17,7 @@ export const initialProblem: Problem = {
   topic: "COMPUTER_ARCHITECTURE",
   tags: [],
   isActive: true,
-  updateAt: new Date(),
+  updatedAt: new Date(),
 };
 
 export type Difficulty = "EASY" | "MEDIUM" | "HARD";
