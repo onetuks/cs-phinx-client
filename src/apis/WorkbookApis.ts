@@ -1,5 +1,8 @@
-import { get, patch, post, remove } from "@/apis/ApiRequestUtil";
-import { WorkBook } from "@/types/WorkBook";
+import { arrayToDate, get, patch, post, remove } from "@/apis/ApiRequestUtil";
+import { CollectionType, Workbook } from "@/types/Workbook";
+import { Problem } from "@/types/Problem";
+import { Page, PageUtil } from "@/apis/PageUtil";
+import { INVALID_WORKBOOK_COMMAND } from "@/consts/Messages";
 
 export interface WorkbookCommand {
   title: string;
@@ -9,22 +12,50 @@ export interface WorkbookCommand {
   isActive: boolean;
 }
 
-type CollectionType =
-  | "TOPIC_POINT"
-  | "QUICK_POINT"
-  | "KEY_POINT"
-  | "TRAP_POINT"
-  | "DAILY_POINT";
-
 export const WorkbookApis = {
   BASE_URI: "/workbooks",
-  postNewWorkbook: async (body: WorkbookCommand): Promise<void> => {
-    await post(WorkbookApis.BASE_URI, body).then((res) => console.log(res));
+  convertToCommand: (workbook: Workbook): WorkbookCommand => {
+    return {
+      title: workbook.title.trim(),
+      description: workbook.description.trim(),
+      collectionType: workbook.collectionType,
+      includedProblemIds: workbook.includedProblems.map(
+        (p: Problem) => p.problemId
+      ),
+      isActive: workbook.isActive,
+    };
   },
-  getWorkbook: async (workbookId: number): Promise<WorkBook> => {
+  checkCommandValidity: (command: WorkbookCommand) => {
+    if (
+      !command.title ||
+      !command.description ||
+      !command.collectionType ||
+      !command.includedProblemIds
+    ) {
+      throw new Error(INVALID_WORKBOOK_COMMAND);
+    }
+  },
+  postNewWorkbook: async (body: WorkbookCommand): Promise<number> => {
+    return await post(WorkbookApis.BASE_URI, body);
+  },
+  getWorkbook: async (workbookId: number): Promise<Workbook> => {
     return await get(`${WorkbookApis.BASE_URI}/${workbookId}`).then(
-      (res) => res as WorkBook
+      (res) => res as Workbook
     );
+  },
+  getWorkbooks: async (
+    page?: number,
+    size?: number
+  ): Promise<Page<Workbook>> => {
+    return await get(
+      PageUtil.buildPageQuery(WorkbookApis.BASE_URI, page, size)
+    ).then((res) => {
+      const responses = res as Page<Workbook>;
+      responses.content.forEach((workbook: Workbook) => {
+        workbook.updatedAt = arrayToDate(workbook.updatedAt);
+      });
+      return responses;
+    });
   },
   patchWorkbook: async (
     workbookId: number,

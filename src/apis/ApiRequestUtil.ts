@@ -31,7 +31,7 @@ export const post = async (uri: string, body?: object): Promise<number> => {
       return parseInt(locationHeader.split("/").pop() || "", 10);
     })
     .catch((err) => {
-      handleApiError;
+      handleApiError(err);
       throw err;
     });
 };

@@ -1,19 +1,30 @@
 <script setup lang="ts">
 import router from "@/router";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { WorkBook } from "@/types/WorkBook";
+import { Workbook } from "@/types/Workbook";
+import { WorkbookApis } from "@/apis/WorkbookApis";
+import { emptyPage, Page } from "@/apis/PageUtil";
 
-const headers: string[] = ["문제집 번호", "문제집 제목"];
+const headers: string[] = ["번호", "제목", "타입", "활성화", "수정일", "편집"];
 
 const route = useRoute();
-const workBooks = ref<WorkBook[]>([]);
+const workbooks = ref<Page<Workbook>>(emptyPage());
 
-const moveToWorkBookEditPage = (workBookId: string) =>
-  router.push(`/manager/workbooks/${workBookId}`);
-const moveToWorkBookRegisterPage = () =>
+const moveToWorkbookEditPage = (workbookId: string) =>
+  router.push(`/manager/workbooks/${workbookId}`);
+const moveToWorkbookRegisterPage = () =>
   router.push("/manager/workbooks/registration");
+
+onMounted(() => fetchWorkbooks());
+
+const fetchWorkbooks = async (): Promise<void> => {
+  await WorkbookApis.getWorkbooks(workbooks.value.number).then((res) => {
+    workbooks.value = res;
+    console.log(workbooks.value.content);
+  });
+};
 </script>
 
 <template>
@@ -24,7 +35,7 @@ const moveToWorkBookRegisterPage = () =>
       </h1>
       <button
         class="bg-secondary text-white rounded-lg px-4 py-2 hover:bg-primary h-fit"
-        @click="moveToWorkBookRegisterPage"
+        @click="moveToWorkbookRegisterPage"
       >
         문제집 등록하기
       </button>
@@ -43,28 +54,40 @@ const moveToWorkBookRegisterPage = () =>
       </thead>
       <tbody>
         <tr
-          v-for="(workBook, index) in workBooks"
+          v-for="(workbook, index) in workbooks.content"
           :key="index"
           class="hover:bg-gray-50"
         >
           <td class="px-4 py-2 border border-gray-300">
-            {{ workBook.workBookId }}
+            {{ workbook.workbookId }}
           </td>
-          <td class="px-4 py-2 border border-gray-300">{{ workBook.title }}</td>
+
+          <td class="px-4 py-2 border border-gray-300">{{ workbook.title }}</td>
+
+          <td class="px-4 py-2 border border-gray-300">
+            {{ workbook.collectionType }}
+          </td>
+
           <td
             class="px-4 py-2 border border-gray-300 flex justify-center items-center"
           >
             <div
-              @click="toggleProblemActiveness(workBook)"
+              @click="toggleProblemActiveness(workbook)"
               class="w-12 h-6 flex items-center cursor-pointer rounded-full"
-              :class="workBook.isActive ? 'bg-secondary' : 'bg-gray-300'"
+              :class="workbook.isActive ? 'bg-secondary' : 'bg-gray-300'"
             >
               <div
                 class="w-4 h-4 bg-white rounded-full shadow transform transition-transform duration-300"
-                :class="workBook.isActive ? 'translate-x-6' : 'translate-x-2'"
+                :class="workbook.isActive ? 'translate-x-6' : 'translate-x-2'"
               ></div>
             </div>
           </td>
+
+          <td
+            class="px-4 py-2 border border-gray-300"
+            v-text="formatDate(workbook.updatedAt)"
+          ></td>
+
           <td class="px4 border border-gray-300">
             <div
               :class="[
@@ -72,7 +95,7 @@ const moveToWorkBookRegisterPage = () =>
                 'shadow transform transition-transform duration-300',
                 'bg-secondary hover:bg-primary',
               ]"
-              @click="moveToWorkBookEditPage(workBook.workBookId)"
+              @click="moveToWorkbookEditPage(workbook.workbookId)"
             >
               <font-awesome-icon :icon="['fas', 'pen-to-square']" />
             </div>

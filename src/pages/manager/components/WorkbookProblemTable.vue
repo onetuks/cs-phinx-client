@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Problem } from "@/types/Problem";
 
-const headers = ["문제번호", "제목", "문제집번호", "활성화"] as const;
+const headers = ["문제번호", "제목", "태그"] as const;
 
 const props = defineProps<{
   title: string;
@@ -12,8 +12,12 @@ const emits = defineEmits<{
   (event: "toggle-problem", problem: Problem, toIncluded: boolean): void;
 }>();
 
-const toggleProblemIncluded = (problem: Problem): void => {
+const toggleProblemInclusion = (problem: Problem): void => {
   emits("toggle-problem", problem, props.title !== "포함된 문제");
+};
+
+const makeAllTagToString = (tags: string[]): string => {
+  return tags.join(", ");
 };
 </script>
 
@@ -26,7 +30,7 @@ const toggleProblemIncluded = (problem: Problem): void => {
           <th
             v-for="header in headers"
             :key="header"
-            class="px-4 py-2 border border-gray-300"
+            class="py-2 border border-gray-300"
           >
             {{ header }}
           </th>
@@ -34,32 +38,19 @@ const toggleProblemIncluded = (problem: Problem): void => {
       </thead>
       <tbody>
         <tr
-          @click="toggleProblemIncluded(problem)"
+          @click="toggleProblemInclusion(problem)"
           v-for="(problem, index) in problems"
           :key="index"
           class="hover:bg-gray-50"
         >
-          <td class="px-2 py-1 border border-gray-300">
+          <td class="px-1 py-1 border border-gray-300">
             {{ problem.problemId }}
           </td>
-          <td class="px-2 py-1 border border-gray-300">
+          <td class="px-1 py-1 border border-gray-300">
             {{ problem.title }}
           </td>
-          <td class="px-2 py-1 border border-gray-300">
-            {{ problem.workBookId }}
-          </td>
-          <td
-            class="px-2 py-1 border border-gray-300 flex justify-center items-center"
-          >
-            <div
-              class="w-12 h-6 flex items-center cursor-pointer rounded-full"
-              :class="problem.isActive ? 'bg-secondary' : 'bg-gray-300'"
-            >
-              <div
-                class="w-4 h-4 bg-white rounded-full shadow transform transition-transform duration-300"
-                :class="problem.isActive ? 'translate-x-6' : 'translate-x-2'"
-              ></div>
-            </div>
+          <td class="px-1 py-1 border border-gray-300">
+            {{ makeAllTagToString(problem.tags) }}
           </td>
         </tr>
       </tbody>

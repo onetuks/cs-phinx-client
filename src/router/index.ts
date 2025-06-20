@@ -44,17 +44,17 @@ const routes = [
   {
     path: "/manager/workbooks",
     name: "문제집 관리",
-    component: () => import("@/pages/manager/WorkBooksManagerPage.vue"),
+    component: () => import("@/pages/manager/WorkbooksManagerPage.vue"),
   },
   {
     path: "/manager/workbooks/:workbookId",
     name: "문제집 상세 관리",
-    component: () => import("@/pages/manager/WorkBookDetailManagerPage.vue"),
+    component: () => import("@/pages/manager/WorkbookDetailManagerPage.vue"),
   },
   {
     path: "/manager/workbooks/registration",
     name: "문제집 등록",
-    component: () => import("@/pages/manager/WorkBookDetailManagerPage.vue"),
+    component: () => import("@/pages/manager/WorkbookDetailManagerPage.vue"),
   },
 ];
 

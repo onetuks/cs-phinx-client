@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ClickButtonType } from "@/types/WorkBook";
+import { ClickButtonType } from "@/types/Workbook";
 
 const props = defineProps<{
   clickButtonType: ClickButtonType;
