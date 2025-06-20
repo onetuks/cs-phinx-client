@@ -1,6 +1,7 @@
-import { arrayToDate, get, patch, post, remove } from "@/utils/ApiRequestUtil";
+import { get, patch, post, remove } from "@/utils/ApiRequestUtil";
 import { Workbook } from "@/types/Workbook";
 import { Page, PageUtil } from "@/utils/PageUtil";
+import { WorkbookResponse } from "@/apis/responses/WorkbookResponse";
 
 const BASE_URI = "/workbooks" as const;
 
@@ -10,7 +11,8 @@ export const WorkbookApis = {
   },
   getWorkbook: async (workbookId: number): Promise<Workbook> => {
     return await get(`${BASE_URI}/${workbookId}`).then((res) => {
-      return res as Workbook;
+      const workbookResponse = res as WorkbookResponse;
+      return WorkbookResponse.toWorkbook(workbookResponse);
     });
   },
   getWorkbooks: async (
@@ -19,11 +21,15 @@ export const WorkbookApis = {
   ): Promise<Page<Workbook>> => {
     return await get(PageUtil.buildPageQuery(BASE_URI, page, size)).then(
       (res) => {
-        const responses = res as Page<Workbook>;
-        responses.content.forEach((workbook: Workbook) => {
-          workbook.updatedAt = arrayToDate(workbook.updatedAt);
-        });
-        return responses;
+        const workbookResponses = res as Page<WorkbookResponse>;
+        const workbooks = res as Page<Workbook>;
+        workbookResponses.content.forEach(
+          (workbookResponse: WorkbookResponse, index: number) => {
+            workbooks.content[index] =
+              WorkbookResponse.toWorkbook(workbookResponse);
+          }
+        );
+        return workbooks;
       }
     );
   },
