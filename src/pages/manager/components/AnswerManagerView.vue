@@ -13,6 +13,7 @@ import {
   ANSWER_REMOVE_SUCCESS,
   toaster,
 } from "@/utils/ToastUtil";
+import { RouteUtil } from "@/utils/RouteUtil";
 
 const answer = defineModel("answer", {
   required: true,
@@ -23,8 +24,6 @@ const props = defineProps<{
 }>();
 
 const route = useRoute();
-
-const isForRegistration: boolean = route.path.includes("/registration");
 
 const registerAnswer = async () => {
   await AnswerApis.postNewAnswer(AnswerCommand.fromAnswer(answer.value)).then(
@@ -56,7 +55,10 @@ watch(props.problem, (newVal) => {
   <div class="w-full h-fit border border-primary rounded-md py-5">
     <answer-info-view v-model:answer="answer" />
     <div class="px-5">
-      <div class="flex flex-row justify-end space-x-4" v-if="isForRegistration">
+      <div
+        class="flex flex-row justify-end space-x-4"
+        v-if="RouteUtil.isForRegistration(route)"
+      >
         <manager-button
           :click-button-type="'등록하기'"
           @click-button="registerAnswer"

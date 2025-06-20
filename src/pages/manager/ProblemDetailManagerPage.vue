@@ -5,6 +5,7 @@ import { AnswerApis } from "@/apis/AnswerApis";
 import { ProblemApis } from "@/apis/ProblemApis";
 import { Answer, initialAnswer } from "@/types/Answer";
 import { initialProblem, Problem } from "@/types/Problem";
+import { RouteUtil } from "@/utils/RouteUtil";
 import ProblemManagerView from "@/pages/manager/components/ProblemManagerView.vue";
 import AnswerManagerView from "@/pages/manager/components/AnswerManagerView.vue";
 
@@ -24,8 +25,8 @@ const fetchAnswer = async (problemId: number) => {
 };
 
 onMounted(() => {
-  if (route.params.problemId) {
-    const problemId = Number(route.params.problemId);
+  if (!RouteUtil.isForRegistration(route)) {
+    const problemId = Number(RouteUtil.extractParam(route, "problemId"));
     fetchProblem(problemId);
     fetchAnswer(problemId);
   }

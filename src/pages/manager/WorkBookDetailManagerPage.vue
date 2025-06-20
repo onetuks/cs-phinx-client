@@ -15,13 +15,12 @@ import WorkbookProblemTable from "@/pages/manager/components/WorkbookProblemTabl
 import ManagerButton from "@/components/widgets/ManagerButton.vue";
 import WorkbookInfoView from "@/pages/manager/components/WorkbookInfoView.vue";
 import { WorkbookCommand } from "@/apis/commands/WorkbookCommand";
+import { RouteUtil } from "@/utils/RouteUtil";
 
 const route = useRoute();
 const workbook = ref<Workbook>(initialWorkbook);
 const includedProblems = ref<Problem[]>([]);
 const excludedProblems = ref<Problem[]>([]);
-
-const isForRegistration: boolean = route.path.includes("/registration");
 
 const handleToggleProblem = (problem: Problem, toIncluded: boolean): void => {
   if (toIncluded) {
@@ -64,9 +63,9 @@ const removeWorkbook = async (): Promise<void> => {
 };
 
 onMounted(() => {
-  if (!isForRegistration) {
-    const workBookId = Number(route.params.workBookId);
-    fetchWorkbook(workBookId);
+  if (!RouteUtil.isForRegistration(route)) {
+    const workbookId = Number(RouteUtil.extractParam(route, "workbookId"));
+    fetchWorkbook(workbookId);
   }
 
   fetchAllProblems();
@@ -115,7 +114,10 @@ const fetchAllProblems = async () => {
       />
     </div>
 
-    <div class="flex flex-row justify-end space-x-4" v-if="isForRegistration">
+    <div
+      class="flex flex-row justify-end space-x-4"
+      v-if="RouteUtil.isForRegistration(route)"
+    >
       <manager-button
         :click-button-type="'등록하기'"
         @click="registerWorkbook"

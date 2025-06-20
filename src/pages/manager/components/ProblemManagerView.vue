@@ -11,6 +11,7 @@ import {
   toaster,
 } from "@/utils/ToastUtil";
 import { ProblemCommand } from "@/apis/commands/ProblemCommand";
+import { RouteUtil } from "@/utils/RouteUtil";
 
 const problem = defineModel("problem", {
   required: true,
@@ -18,8 +19,6 @@ const problem = defineModel("problem", {
 });
 
 const route = useRoute();
-
-const isForRegistration: boolean = route.path.includes("/registration");
 
 const registerProblem = async () => {
   await ProblemApis.postNewProblem(
@@ -48,7 +47,10 @@ const removeProblem = async () => {
   <div class="w-full h-fit border border-primary rounded-md py-5">
     <problem-info-view v-model:problem="problem" />
     <div class="px-5">
-      <div class="flex flex-row justify-end space-x-4" v-if="isForRegistration">
+      <div
+        class="flex flex-row justify-end space-x-4"
+        v-if="RouteUtil.isForRegistration(route)"
+      >
         <manager-button
           :click-button-type="'등록하기'"
           @click-button="registerProblem"
