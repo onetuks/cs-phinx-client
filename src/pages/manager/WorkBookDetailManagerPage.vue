@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
-import { useToast } from "vue-toastification";
+import {
+  toaster,
+  WORKBOOK_EDIT_SUCCESS,
+  WORKBOOK_REGISTER_SUCCESS,
+  WORKBOOK_REMOVE_SUCCESS,
+} from "@/utils/ToastUtil";
 import { Problem } from "@/types/Problem";
 import { initialWorkbook, Workbook } from "@/types/Workbook";
 import { ProblemApis } from "@/apis/ProblemApis";
@@ -9,15 +14,9 @@ import { WorkbookApis } from "@/apis/WorkbookApis";
 import WorkbookProblemTable from "@/pages/manager/components/WorkbookProblemTable.vue";
 import ManagerButton from "@/components/widgets/ManagerButton.vue";
 import WorkbookInfoView from "@/pages/manager/components/WorkbookInfoView.vue";
-import {
-  INVALID_WORKBOOK_COMMAND,
-  WORKBOOK_EDIT_SUCCESS,
-  WORKBOOK_REGISTER_SUCCESS,
-  WORKBOOK_REMOVE_SUCCESS,
-} from "@/utils/ToastUtil";
+import { WorkbookCommand } from "@/apis/commands/WorkbookCommand";
 
 const route = useRoute();
-const toast = useToast();
 const workbook = ref<Workbook>(initialWorkbook);
 const includedProblems = ref<Problem[]>([]);
 const excludedProblems = ref<Problem[]>([]);
@@ -43,38 +42,25 @@ const updateWorkbook = (updatedWorkBook: Workbook): void => {
 };
 
 const registerWorkbook = async (): Promise<void> => {
-  try {
-    const workbookCommand = WorkbookApis.convertToCommand(workbook.value);
-    WorkbookApis.checkCommandValidity(workbookCommand);
-    await WorkbookApis.postNewWorkbook(workbookCommand).then((workbookId) => {
-      workbook.value.workbookId = workbookId;
-      toast.success(WORKBOOK_REGISTER_SUCCESS);
-    });
-  } catch (error) {
-    toast.error(INVALID_WORKBOOK_COMMAND);
-  }
+  await WorkbookApis.postNewWorkbook(
+    WorkbookCommand.fromWorkbook(workbook.value)
+  ).then((workbookId) => {
+    workbook.value.workbookId = workbookId;
+    toaster.success(WORKBOOK_REGISTER_SUCCESS);
+  });
 };
-
 const editWorkbook = async (): Promise<void> => {
-  try {
-    const workbookCommand = WorkbookApis.convertToCommand(workbook.value);
-    WorkbookApis.checkCommandValidity(workbookCommand);
-    await WorkbookApis.patchWorkbook(
-      workbook.value.workbookId,
-      workbookCommand
-    ).then(() => toast.success(WORKBOOK_EDIT_SUCCESS));
-  } catch (error) {
-    toast.error(INVALID_WORKBOOK_COMMAND);
-  }
+  await WorkbookApis.patchWorkbook(
+    workbook.value.workbookId,
+    WorkbookCommand.fromWorkbook(workbook.value)
+  ).then(() => {
+    toast.success(WORKBOOK_EDIT_SUCCESS);
+  });
 };
 const removeWorkbook = async (): Promise<void> => {
-  try {
-    await WorkbookApis.deleteWorkbook(workbook.value.workbookId).then(() =>
-      toast.success(WORKBOOK_REMOVE_SUCCESS)
-    );
-  } catch (error) {
-    toast.error(INVALID_WORKBOOK_COMMAND);
-  }
+  await WorkbookApis.deleteWorkbook(workbook.value.workbookId).then(() => {
+    toast.success(WORKBOOK_REMOVE_SUCCESS);
+  });
 };
 
 onMounted(() => {
