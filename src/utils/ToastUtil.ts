@@ -2,6 +2,15 @@ import { useToast } from "vue-toastification";
 
 export const toaster = useToast();
 
+// Answer
+export const INVALID_ANSWER_COMMAND =
+  "답안 정보가 충분히 기입되지 않았습니다" as const;
+export const ANSWER_REGISTER_SUCCESS =
+  "답안이 성공적으로 등록되었습니다" as const;
+export const ANSWER_EDIT_SUCCESS = "답안이 성공적으로 수정되었습니다" as const;
+export const ANSWER_REMOVE_SUCCESS =
+  "답안이 성공적으로 삭제되었습니다" as const;
+
 // Problem
 export const INVALID_PROBLEM_COMMAND =
   "문제 정보가 충분히 기입되지 않았습니다" as const;

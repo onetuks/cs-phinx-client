@@ -25,9 +25,9 @@ const route = useRoute();
 const problems = ref<Page<Problem>>(PageUtil.emptyPage());
 
 const toggleProblemActiveness = async (problem: Problem): Promise<void> => {
-  const targetProblem = problems.value.content.find(
-    (p) => p.problemId === problem.problemId
-  );
+  const targetProblem = problems.value.content.find((p) => {
+    return p.problemId === problem.problemId;
+  });
   if (!targetProblem) return;
   targetProblem.isActive = !targetProblem.isActive;
 
