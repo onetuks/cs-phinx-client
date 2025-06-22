@@ -11,11 +11,12 @@ import { Problem } from "@/types/Problem";
 import { initialWorkbook, Workbook } from "@/types/Workbook";
 import { ProblemApis } from "@/apis/ProblemApis";
 import { WorkbookApis } from "@/apis/WorkbookApis";
-import WorkbookProblemTable from "@/pages/manager/components/WorkbookProblemTable.vue";
+import WorkbookProblemTable from "@/pages/manager/workbooks/components/WorkbookProblemTable.vue";
 import ManagerButton from "@/components/widgets/ManagerButton.vue";
-import WorkbookInfoView from "@/pages/manager/components/WorkbookInfoView.vue";
+import WorkbookInfoView from "@/pages/manager/workbooks/components/WorkbookInfoView.vue";
 import { WorkbookCommand } from "@/apis/commands/WorkbookCommand";
 import { RouteUtil } from "@/utils/RouteUtil";
+import { ManagerRouterUtil } from "@/pages/manager/ManagerRouterUtil";
 
 const route = useRoute();
 const workbook = ref<Workbook>(initialWorkbook);
@@ -46,6 +47,7 @@ const registerWorkbook = async (): Promise<void> => {
   ).then((workbookId) => {
     workbook.value.workbookId = workbookId;
     toaster.success(WORKBOOK_REGISTER_SUCCESS);
+    ManagerRouterUtil.moveToWorkbookEditPage(workbookId);
   });
 };
 const editWorkbook = async (): Promise<void> => {
@@ -53,12 +55,13 @@ const editWorkbook = async (): Promise<void> => {
     workbook.value.workbookId,
     WorkbookCommand.fromWorkbook(workbook.value)
   ).then(() => {
-    toast.success(WORKBOOK_EDIT_SUCCESS);
+    toaster.success(WORKBOOK_EDIT_SUCCESS);
   });
 };
 const removeWorkbook = async (): Promise<void> => {
   await WorkbookApis.deleteWorkbook(workbook.value.workbookId).then(() => {
-    toast.success(WORKBOOK_REMOVE_SUCCESS);
+    toaster.success(WORKBOOK_REMOVE_SUCCESS);
+    ManagerRouterUtil.moveToWorkbookManagerPage();
   });
 };
 
@@ -78,7 +81,7 @@ const fetchWorkbook = async (workbookId: number): Promise<void> => {
 };
 
 const fetchAllProblems = async () => {
-  await ProblemApis.getProblems(undefined, 1000).then((res) => {
+  await ProblemApis.getProblems(undefined, undefined, 1000).then((res) => {
     const allProblems: Problem[] = res.content;
     includedProblems.value = workbook.value.includedProblems;
     excludedProblems.value = allProblems.filter(

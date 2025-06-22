@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import router from "@/router";
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -7,25 +6,29 @@ import { Workbook } from "@/types/Workbook";
 import { WorkbookApis } from "@/apis/WorkbookApis";
 import { Page, PageUtil } from "@/utils/PageUtil";
 import { DateUtil } from "@/utils/DateUtil";
+import { ManagerRouterUtil } from "@/pages/manager/ManagerRouterUtil";
 
-const headers: string[] = ["번호", "제목", "타입", "활성화", "수정일", "편집"];
+const headers: string[] = [
+  "번호",
+  "제목",
+  "타입",
+  "활성화",
+  "수정일",
+  "편집",
+] as const;
 
 const route = useRoute();
 const workbooks = ref<Page<Workbook>>(PageUtil.emptyPage());
-
-const moveToWorkbookEditPage = (workbookId: string) =>
-  router.push(`/manager/workbooks/${workbookId}`);
-const moveToWorkbookRegisterPage = () =>
-  router.push("/manager/workbooks/registration");
 
 onMounted(() => fetchWorkbooks());
 
 const fetchWorkbooks = async (): Promise<void> => {
   await WorkbookApis.getWorkbooks(workbooks.value.number).then((res) => {
     workbooks.value = res;
-    console.log(workbooks.value.content);
   });
 };
+const fetchPrevPage = () => {};
+const fetchNextPage = () => {};
 </script>
 
 <template>
@@ -36,7 +39,7 @@ const fetchWorkbooks = async (): Promise<void> => {
       </h1>
       <button
         class="bg-secondary text-white rounded-lg px-4 py-2 hover:bg-primary h-fit"
-        @click="moveToWorkbookRegisterPage"
+        @click="ManagerRouterUtil.moveToWorkbookRegisterPage"
       >
         문제집 등록하기
       </button>
@@ -96,7 +99,9 @@ const fetchWorkbooks = async (): Promise<void> => {
                 'shadow transform transition-transform duration-300',
                 'bg-secondary hover:bg-primary',
               ]"
-              @click="moveToWorkbookEditPage(workbook.workbookId)"
+              @click="
+                ManagerRouterUtil.moveToWorkbookEditPage(workbook.workbookId)
+              "
             >
               <font-awesome-icon :icon="['fas', 'pen-to-square']" />
             </div>
@@ -115,7 +120,7 @@ const fetchWorkbooks = async (): Promise<void> => {
 
       <button
         class="bg-secondary text-white rounded-lg px-4 py-2 hover:bg-primary"
-        @click="fetchPostPage"
+        @click="fetchNextPage"
       >
         <font-awesome-icon :icon="['fas', 'right-long']" />
       </button>

@@ -14,47 +14,52 @@ const routes = [
   {
     path: "/manager/problems",
     name: "문제 관리",
-    component: () => import("@/pages/manager/ProblemsManagerPage.vue"),
+    component: () => import("@/pages/manager/problems/ProblemsManagerPage.vue"),
   },
   {
     path: "/manager/problems/choices",
     name: "객관식",
-    component: () => import("@/pages/manager/ProblemsManagerPage.vue"),
+    component: () => import("@/pages/manager/problems/ProblemsManagerPage.vue"),
   },
   {
     path: "/manager/problems/shorts",
     name: "단답형",
-    component: () => import("@/pages/manager/ProblemsManagerPage.vue"),
+    component: () => import("@/pages/manager/problems/ProblemsManagerPage.vue"),
   },
   {
     path: "/manager/problems/descriptions",
     name: "서술형",
-    component: () => import("@/pages/manager/ProblemsManagerPage.vue"),
+    component: () => import("@/pages/manager/problems/ProblemsManagerPage.vue"),
   },
   {
     path: "/manager/problems/:problemId",
     name: "문제 상세 관리",
-    component: () => import("@/pages/manager/ProblemDetailManagerPage.vue"),
+    component: () =>
+      import("@/pages/manager/problems/ProblemDetailManagerPage.vue"),
   },
   {
     path: "/manager/problems/registration",
     name: "문제 등록",
-    component: () => import("@/pages/manager/ProblemDetailManagerPage.vue"),
+    component: () =>
+      import("@/pages/manager/problems/ProblemDetailManagerPage.vue"),
   },
   {
     path: "/manager/workbooks",
     name: "문제집 관리",
-    component: () => import("@/pages/manager/WorkbooksManagerPage.vue"),
+    component: () =>
+      import("@/pages/manager/workbooks/WorkbooksManagerPage.vue"),
   },
   {
     path: "/manager/workbooks/:workbookId",
     name: "문제집 상세 관리",
-    component: () => import("@/pages/manager/WorkbookDetailManagerPage.vue"),
+    component: () =>
+      import("@/pages/manager/workbooks/WorkBookDetailManagerPage.vue"),
   },
   {
     path: "/manager/workbooks/registration",
     name: "문제집 등록",
-    component: () => import("@/pages/manager/WorkbookDetailManagerPage.vue"),
+    component: () =>
+      import("@/pages/manager/workbooks/WorkBookDetailManagerPage.vue"),
   },
 ];
 

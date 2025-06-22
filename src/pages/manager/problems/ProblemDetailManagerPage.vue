@@ -1,34 +1,22 @@
 <script setup lang="ts">
 import { useRoute } from "vue-router";
 import { onMounted, ref } from "vue";
-import { AnswerApis } from "@/apis/AnswerApis";
-import { ProblemApis } from "@/apis/ProblemApis";
 import { Answer, initialAnswer } from "@/types/Answer";
 import { initialProblem, Problem } from "@/types/Problem";
 import { RouteUtil } from "@/utils/RouteUtil";
-import ProblemManagerView from "@/pages/manager/components/ProblemManagerView.vue";
-import AnswerManagerView from "@/pages/manager/components/AnswerManagerView.vue";
+import { ProblemManipulator } from "@/pages/manager/problems/ProblemManipulator";
+import ProblemManagerView from "@/pages/manager/problems/components/ProblemManagerView.vue";
+import AnswerManagerView from "@/pages/manager/problems/components/AnswerManagerView.vue";
 
 const route = useRoute();
 const problem = ref<Problem>(initialProblem);
 const answer = ref<Answer>(initialAnswer);
 
-const fetchProblem = async (problemId: number) => {
-  await ProblemApis.getProblem(problemId).then((res: Problem) => {
-    problem.value = res;
-  });
-};
-const fetchAnswer = async (problemId: number) => {
-  await AnswerApis.getAnswer(problemId).then((res: Answer) => {
-    answer.value = res;
-  });
-};
-
 onMounted(() => {
   if (!RouteUtil.isForRegistration(route)) {
     const problemId = Number(RouteUtil.extractParam(route, "problemId"));
-    fetchProblem(problemId);
-    fetchAnswer(problemId);
+    ProblemManipulator.fetchProblem(problemId, problem);
+    ProblemManipulator.fetchAnswer(problemId, answer);
   }
 });
 </script>

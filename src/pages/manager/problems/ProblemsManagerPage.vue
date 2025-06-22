@@ -2,14 +2,13 @@
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import router from "@/router";
 import { Problem } from "@/types/Problem";
 import { ProblemApis } from "@/apis/ProblemApis";
 import { Page, PageUtil } from "@/utils/PageUtil";
 import { AnswerTypeUtil } from "@/types/Answer";
-import { PROBLEM_REMOVE_SUCCESS, toaster } from "@/utils/ToastUtil";
-import { ProblemCommand } from "@/apis/commands/ProblemCommand";
 import { DateUtil } from "@/utils/DateUtil";
+import { ManagerRouterUtil } from "@/pages/manager/ManagerRouterUtil";
+import { ProblemManipulator } from "@/pages/manager/problems/ProblemManipulator";
 
 const headers = [
   "문제번호",
@@ -31,22 +30,8 @@ const toggleProblemActiveness = async (problem: Problem): Promise<void> => {
   if (!targetProblem) return;
   targetProblem.isActive = !targetProblem.isActive;
 
-  await ProblemApis.patchProblem(
-    problem.problemId,
-    ProblemCommand.fromProblem(problem)
-  );
+  ProblemManipulator.editProblem(targetProblem);
 };
-
-const removeProblem = async (problemId: number): Promise<void> => {
-  await ProblemApis.deleteProblem(problemId).then(() => {
-    toaster.success(PROBLEM_REMOVE_SUCCESS);
-  });
-};
-
-const moveToProblemEditPage = (problemId: number) =>
-  router.push(`/manager/problems/${problemId}`);
-const moveToProblemRegisterPage = () =>
-  router.push("/manager/problems/registration");
 
 onMounted(() => fetchProblems());
 
@@ -70,7 +55,7 @@ const fetchNextPage = () => {};
       </h1>
       <button
         class="bg-secondary text-white rounded-lg px-4 py-2 hover:bg-primary h-fit"
-        @click="moveToProblemRegisterPage"
+        @click="ManagerRouterUtil.moveToProblemRegisterPage"
       >
         문제 등록하기
       </button>
@@ -127,7 +112,9 @@ const fetchNextPage = () => {};
                   'shadow transform transition-transform duration-300',
                   'bg-secondary hover:bg-primary',
                 ]"
-                @click="moveToProblemEditPage(problem.problemId)"
+                @click="
+                  ManagerRouterUtil.moveToProblemEditPage(problem.problemId)
+                "
               >
                 <font-awesome-icon :icon="['fas', 'pen-to-square']" />
               </div>
@@ -138,7 +125,7 @@ const fetchNextPage = () => {};
                   'shadow transform transition-transform duration-300',
                   'bg-secondary hover:bg-primary',
                 ]"
-                @click="removeProblem(problem.problemId)"
+                @click="ProblemManipulator.removeProblem(problem.problemId)"
               >
                 <font-awesome-icon :icon="['fas', 'trash']" />
               </div>
