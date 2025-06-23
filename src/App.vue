@@ -11,7 +11,6 @@
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import { useRoute } from "vue-router";
 import Footer from "@/components/layouts/Footer.vue";
 import Header from "@/components/layouts/Header.vue";
 import SideBar from "@/components/layouts/SideBar.vue";
@@ -24,10 +23,8 @@ import SideBar from "@/components/layouts/SideBar.vue";
   },
 })
 export default class App extends Vue {
-  private route = useRoute();
-
   get isManagerPage(): boolean {
-    return this.route.path.includes("/manager");
+    return this.$route.path.includes("/manager");
   }
 }
 </script>

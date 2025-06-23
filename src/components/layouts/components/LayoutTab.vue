@@ -1,18 +1,17 @@
 <script setup lang="ts">
-import { useRoute } from "vue-router";
 import { computed } from "vue";
 import { LayoutTab } from "@/components/layouts/types/LayoutTab";
 import router from "@/router";
+import { RouteUtil } from "@/utils/RouteUtil";
 
 const props = defineProps<{
   tab: LayoutTab;
 }>();
 
-const route = useRoute();
-
-const isButtonFocused = computed(() => route.path.includes(props.tab.path));
-
-const moveToPage = () => router.push(props.tab.path);
+const isButtonFocused = computed(() => {
+  const route = router.currentRoute.value;
+  return route.path.includes(props.tab.path);
+});
 </script>
 
 <template>
@@ -20,7 +19,7 @@ const moveToPage = () => router.push(props.tab.path);
     <button
       class="text-center text-gray-500 w-24 h-full group-hover:text-black"
       :class="isButtonFocused ? '!text-black' : 'text-gray-500'"
-      @click="moveToPage"
+      @click="RouteUtil.moveToPage(tab.path)"
     >
       {{ props.tab.name }}
     </button>

@@ -7,8 +7,8 @@ import { ProblemApis } from "@/apis/ProblemApis";
 import { Page, PageUtil } from "@/utils/PageUtil";
 import { AnswerTypeUtil } from "@/types/Answer";
 import { DateUtil } from "@/utils/DateUtil";
-import { ManagerRouterUtil } from "@/pages/manager/ManagerRouterUtil";
 import { ProblemManipulator } from "@/pages/manager/problems/ProblemManipulator";
+import { RouteUtil } from "@/utils/RouteUtil";
 
 const headers = [
   "문제번호",
@@ -55,7 +55,7 @@ const fetchNextPage = () => {};
       </h1>
       <button
         class="bg-secondary text-white rounded-lg px-4 py-2 hover:bg-primary h-fit"
-        @click="ManagerRouterUtil.moveToProblemRegisterPage"
+        @click="RouteUtil.moveToProblemRegisterPage"
       >
         문제 등록하기
       </button>
@@ -112,9 +112,7 @@ const fetchNextPage = () => {};
                   'shadow transform transition-transform duration-300',
                   'bg-secondary hover:bg-primary',
                 ]"
-                @click="
-                  ManagerRouterUtil.moveToProblemEditPage(problem.problemId)
-                "
+                @click="RouteUtil.moveToProblemEditPage(problem.problemId)"
               >
                 <font-awesome-icon :icon="['fas', 'pen-to-square']" />
               </div>

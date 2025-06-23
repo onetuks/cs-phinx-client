@@ -1,6 +1,5 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { onMounted, ref } from "vue";
-import { useRoute } from "vue-router";
 import {
   toaster,
   WORKBOOK_EDIT_SUCCESS,
@@ -16,9 +15,7 @@ import ManagerButton from "@/components/widgets/ManagerButton.vue";
 import WorkbookInfoView from "@/pages/manager/workbooks/components/WorkbookInfoView.vue";
 import { WorkbookCommand } from "@/apis/commands/WorkbookCommand";
 import { RouteUtil } from "@/utils/RouteUtil";
-import { ManagerRouterUtil } from "@/pages/manager/ManagerRouterUtil";
 
-const route = useRoute();
 const workbook = ref<Workbook>(initialWorkbook);
 const includedProblems = ref<Problem[]>([]);
 const excludedProblems = ref<Problem[]>([]);
@@ -47,7 +44,7 @@ const registerWorkbook = async (): Promise<void> => {
   ).then((workbookId) => {
     workbook.value.workbookId = workbookId;
     toaster.success(WORKBOOK_REGISTER_SUCCESS);
-    ManagerRouterUtil.moveToWorkbookEditPage(workbookId);
+    RouteUtil.moveToWorkbookEditPage(workbookId);
   });
 };
 const editWorkbook = async (): Promise<void> => {
@@ -61,13 +58,13 @@ const editWorkbook = async (): Promise<void> => {
 const removeWorkbook = async (): Promise<void> => {
   await WorkbookApis.deleteWorkbook(workbook.value.workbookId).then(() => {
     toaster.success(WORKBOOK_REMOVE_SUCCESS);
-    ManagerRouterUtil.moveToWorkbookManagerPage();
+    RouteUtil.moveToWorkbookManagerPage();
   });
 };
 
 onMounted(() => {
-  if (!RouteUtil.isForRegistration(route)) {
-    const workbookId = Number(RouteUtil.extractParam(route, "workbookId"));
+  if (!RouteUtil.isForRegistration()) {
+    const workbookId = Number(RouteUtil.extractParam("workbookId"));
     fetchWorkbook(workbookId);
   }
 
@@ -94,7 +91,7 @@ const fetchAllProblems = async () => {
 <template>
   <div class="px-10">
     <h1 class="text-4xl text-left text-gray-600 py-5">
-      {{ route.name }}
+      {{ $route.name }}
     </h1>
 
     <workbook-info-view
@@ -106,27 +103,27 @@ const fetchAllProblems = async () => {
       class="mb-4 bg-secondary border border-gray-400 rounded-md px-5 py-2 flex flex-row justify-between space-x-4"
     >
       <workbook-problem-table
-        title="포함된 문제"
         :problems="includedProblems"
+        title="포함된 문제"
         @toggle-problem="handleToggleProblem"
       />
       <workbook-problem-table
-        title="미포함 문제"
         :problems="excludedProblems"
+        title="미포함 문제"
         @toggle-problem="handleToggleProblem"
       />
     </div>
 
     <div
+      v-if="RouteUtil.isForRegistration()"
       class="flex flex-row justify-end space-x-4"
-      v-if="RouteUtil.isForRegistration(route)"
     >
       <manager-button
         :click-button-type="'등록하기'"
         @click="registerWorkbook"
       />
     </div>
-    <div class="flex flex-row justify-end space-x-4" v-else>
+    <div v-else class="flex flex-row justify-end space-x-4">
       <manager-button
         :click-button-type="'수정하기'"
         @click-button="editWorkbook"

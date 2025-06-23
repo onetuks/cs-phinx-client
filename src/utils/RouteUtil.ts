@@ -1,8 +1,30 @@
+import router from "@/router";
+
 export const RouteUtil = {
-  isForRegistration: (route: any): boolean => {
-    return route.path.includes("/registration");
+  isForRegistration: (): boolean => {
+    const route = router.currentRoute.value;
+    return route.fullPath.includes("/registration");
   },
-  extractParam: (route: any, paramName: string): string => {
-    return route.params[paramName];
+  extractParam: (paramName: string): string => {
+    const route = router.currentRoute.value;
+    return route.params[paramName][0];
   },
+  moveToPage: (url: string) => {
+    const route = router.currentRoute.value;
+    if (route.fullPath.startsWith(url)) {
+      location.reload();
+      return;
+    }
+    router.push(url);
+  },
+  moveToProblemManagerPage: () => RouteUtil.moveToPage("/manager/problems"),
+  moveToProblemEditPage: (problemId: number) =>
+    RouteUtil.moveToPage(`/manager/problems/${problemId}`),
+  moveToProblemRegisterPage: () =>
+    RouteUtil.moveToPage("/manager/problems/registration"),
+  moveToWorkbookManagerPage: () => RouteUtil.moveToPage("/manager/workbooks"),
+  moveToWorkbookEditPage: (workbookId: string) =>
+    RouteUtil.moveToPage(`/manager/workbooks/${workbookId}`),
+  moveToWorkbookRegisterPage: () =>
+    RouteUtil.moveToPage("/manager/workbooks/registration"),
 };

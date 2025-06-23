@@ -12,8 +12,8 @@ import {
   PROBLEM_REMOVE_SUCCESS,
   toaster,
 } from "@/utils/ToastUtil";
-import { ManagerRouterUtil } from "@/pages/manager/ManagerRouterUtil";
 import { AnswerCommand } from "@/apis/commands/AnswerCommand";
+import { RouteUtil } from "@/utils/RouteUtil";
 
 export const ProblemManipulator = {
   fetchProblem: async (problemId: number, problem: Problem) => {

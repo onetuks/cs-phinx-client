@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import LayoutButton from "@/components/layouts/components/LayoutButton.vue";
 import LayoutTab from "@/components/layouts/components/LayoutTab.vue";
-import router from "@/router";
 import { LayoutTabs } from "@/components/layouts/types/LayoutTab";
+import { RouteUtil } from "@/utils/RouteUtil";
 
-const isManager = (): boolean => true;
-
-const moveToHome = () => router.push("/");
+const isManager = (): boolean => {
+  // todo: make branch
+  return true;
+};
 </script>
 
 <template>
@@ -15,7 +16,7 @@ const moveToHome = () => router.push("/");
   >
     <div
       class="cursor-pointer flex flex-row justify-between items-center space-x-4"
-      @click="moveToHome"
+      @click="RouteUtil.moveToPage('/')"
     >
       <img src="@/assets/img/logo.png" alt="logo" class="w-14 ml-4" />
       <div>

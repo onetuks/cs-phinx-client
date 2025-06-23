@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { useToast } from "vue-toastification";
-import "vue-toastification/dist/index.css";
 import router from "@/router";
+import { toaster } from "@/utils/ToastUtil";
 
 type LayoutButtonType =
   | "FEEDBACK"
@@ -13,8 +12,6 @@ type LayoutButtonType =
 defineProps<{
   buttonType: LayoutButtonType;
 }>();
-
-const toast = useToast();
 
 const mapToLabel = (buttonType: LayoutButtonType): string => {
   switch (buttonType) {
@@ -37,11 +34,11 @@ const handleClick = async (buttonType: LayoutButtonType): Promise<void> => {
   switch (buttonType) {
     case "FEEDBACK":
       await navigator.clipboard.writeText("onetuks@naver.com");
-      toast.success("개발자 이메일이 클립보드에 복사되었습니다!");
+      toaster.success("개발자 이메일이 클립보드에 복사되었습니다!");
       break;
     case "LINK_SHARE":
       await navigator.clipboard.writeText(window.location.href);
-      toast.success("스핑크스 URL이 클립보드에 복사되었습니다!");
+      toaster.success("스핑크스 URL이 클립보드에 복사되었습니다!");
       break;
     case "LOGIN":
       await router.push("/login");
