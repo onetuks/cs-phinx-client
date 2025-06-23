@@ -21,54 +21,50 @@ export const ProblemManipulator = {
       problem.value = res;
     });
   },
-  registerProblem: async (problem: Problem) => {
-    await ProblemApis.postNewProblem(ProblemCommand.fromProblem(problem)).then(
-      (problemId) => {
-        problem.problemId = problemId;
-        toaster.success(PROBLEM_REGISTER_SUCCESS);
-        ManagerRouterUtil.moveToProblemEditPage(problemId);
-      }
-    );
-  },
-  editProblem: async (problem: Problem) => {
-    await ProblemApis.patchProblem(
-      problem.problemId,
-      ProblemCommand.fromProblem(problem)
-    ).then(() => {
-      toaster.success(PROBLEM_EDIT_SUCCESS);
-    });
-  },
-  removeProblem: async (problemId: number) => {
-    await ProblemApis.deleteProblem(problemId).then(() => {
-      AnswerApis.deleteAnswer(problemId).then(() => {
-        toaster.success(PROBLEM_REMOVE_SUCCESS);
-        ManagerRouterUtil.moveToProblemManagerPage();
-      });
-    });
-  },
   fetchAnswer: async (problemId: number, answer: Answer) => {
     await AnswerApis.getAnswer(problemId).then((res: Answer) => {
       answer.value = res;
     });
   },
-  registerAnswer: async (answer: Answer) => {
-    await AnswerApis.postNewAnswer(AnswerCommand.fromAnswer(answer)).then(
-      () => {
-        toaster.success(ANSWER_REGISTER_SUCCESS);
+  registerProblem: async (problem: Problem, answer: Answer) => {
+    await ProblemApis.postNewProblem(ProblemCommand.fromProblem(problem)).then(
+      async (problemId) => {
+        problem.problemId = problemId;
+        answer.problemId = problemId;
+        await AnswerApis.postNewAnswer(AnswerCommand.fromAnswer(answer)).then(
+          () => {
+            toaster.success(PROBLEM_REGISTER_SUCCESS);
+            toaster.success(ANSWER_REGISTER_SUCCESS);
+            RouteUtil.moveToProblemEditPage(problemId);
+          }
+        );
       }
     );
   },
-  editAnswer: async (answer: Answer) => {
-    await AnswerApis.patchAnswer(
-      answer.answerId,
-      AnswerCommand.fromAnswer(answer)
-    ).then(() => {
-      toaster.success(ANSWER_EDIT_SUCCESS);
+  editProblem: async (problem: Problem, answer: Answer) => {
+    await ProblemApis.patchProblem(
+      problem.problemId,
+      ProblemCommand.fromProblem(problem)
+    ).then(async () => {
+      console.log("answer", answer);
+      await AnswerApis.patchAnswer(
+        answer.answerId,
+        AnswerCommand.fromAnswer(answer)
+      ).then(() => {
+        toaster.success(PROBLEM_EDIT_SUCCESS);
+        toaster.success(ANSWER_EDIT_SUCCESS);
+      });
     });
   },
-  removeAnswer: async (answerId: number) => {
-    await AnswerApis.deleteAnswer(answerId).then(() => {
-      toaster.success(ANSWER_REMOVE_SUCCESS);
+  removeProblem: async (problemId: number, answerId: number) => {
+    await AnswerApis.deleteAnswer(answerId).then(async () => {
+      await ProblemApis.deleteProblem(problemId).then(() => {
+        AnswerApis.deleteAnswer(problemId).then(async () => {
+          toaster.success(PROBLEM_REMOVE_SUCCESS);
+          toaster.success(ANSWER_REMOVE_SUCCESS);
+          RouteUtil.moveToProblemManagerPage();
+        });
+      });
     });
   },
 };

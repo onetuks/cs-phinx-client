@@ -22,13 +22,15 @@ onMounted(() => {
 
 <template>
   <div class="p-10">
-    <h1 class="text-4xl text-left text-gray-600 mb-5">
-      {{ route.name }}
+    <div class="flex flex-row justify-between items-center">
+      <h1 class="text-4xl text-left text-gray-600 mb-5">
         {{ $route.name }}
-
+      </h1>
+      <problem-detail-manager-button-view :problem="problem" :answer="answer" />
+    </div>
     <div class="flex flex-row justify-between space-x-5">
-      <problem-manager-view v-model:problem="problem" />
-      <answer-manager-view v-model:answer="answer" :problem="problem" />
+      <problem-detail-manager-view v-model:problem="problem" />
+      <answer-detail-manager-view v-model:answer="answer" />
     </div>
   </div>
 </template>
