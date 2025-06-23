@@ -1,4 +1,5 @@
 import { Answer } from "@/types/Answer";
+import { AnswerResponse } from "@/apis/responses/AnswerResponse";
 import { get, patch, post, remove } from "@/utils/ApiRequestUtil";
 
 const BASE_URI = "/answers" as const;
@@ -8,9 +9,10 @@ export const AnswerApis = {
     await post(BASE_URI, body);
   },
   getAnswer: async (problemId: number): Promise<Answer> => {
-    return await get(`${BASE_URI}?problem-id=${problemId}`).then(
-      (res) => res as Answer
-    );
+    return await get(`${BASE_URI}?problem-id=${problemId}`).then((res) => {
+      const answerResponse = res as AnswerResponse;
+      return AnswerResponse.toAnswer(answerResponse);
+    });
   },
   patchAnswer: async (answerId: number, body: AnswerCommand) => {
     await patch(`${BASE_URI}/${answerId}`, body);

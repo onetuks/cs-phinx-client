@@ -3,6 +3,7 @@ export interface Answer {
   problemId: number;
   answerType: AnswerType;
   answerValues: string[];
+  updatedAt: Date;
 }
 
 export type AnswerType = "CHOICE" | "SHORT" | "DESCRIPTION";
@@ -13,6 +14,7 @@ export const initialAnswer = {
   problemId: -1,
   answerType: AnswerTypes[0],
   answerValues: [],
+  updatedAt: new Date(),
 };
 
 export const AnswerTypeUtil = {
