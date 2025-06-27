@@ -7,11 +7,11 @@ export const RouteUtil = {
   },
   extractParam: (paramName: string): string => {
     const route = router.currentRoute.value;
-    return route.params[paramName][0];
+    return route.params[paramName].toString();
   },
   moveToPage: (url: string) => {
     const route = router.currentRoute.value;
-    if (route.fullPath.startsWith(url)) {
+    if (route.fullPath === url) {
       location.reload();
       return;
     }
