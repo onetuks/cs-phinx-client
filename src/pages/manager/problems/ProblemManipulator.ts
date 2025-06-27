@@ -18,12 +18,12 @@ import { RouteUtil } from "@/utils/RouteUtil";
 export const ProblemManipulator = {
   fetchProblem: async (problemId: number, problem: Problem) => {
     await ProblemApis.getProblem(problemId).then((res: Problem) => {
-      problem.value = res;
+      problem = res;
     });
   },
   fetchAnswer: async (problemId: number, answer: Answer) => {
     await AnswerApis.getAnswer(problemId).then((res: Answer) => {
-      answer.value = res;
+      answer = res;
     });
   },
   registerProblem: async (problem: Problem, answer: Answer) => {
@@ -46,7 +46,6 @@ export const ProblemManipulator = {
       problem.problemId,
       ProblemCommand.fromProblem(problem)
     ).then(async () => {
-      console.log("answer", answer);
       await AnswerApis.patchAnswer(
         answer.answerId,
         AnswerCommand.fromAnswer(answer)
@@ -57,6 +56,14 @@ export const ProblemManipulator = {
     });
   },
   removeProblem: async (problemId: number, answerId: number) => {
+    if (answerId === -1 || answerId === undefined) {
+      await ProblemApis.deleteProblem(problemId).then(() => {
+        toaster.success(PROBLEM_REMOVE_SUCCESS);
+        RouteUtil.moveToProblemManagerPage();
+      });
+      return;
+    }
+
     await AnswerApis.deleteAnswer(answerId).then(async () => {
       await ProblemApis.deleteProblem(problemId).then(() => {
         AnswerApis.deleteAnswer(problemId).then(async () => {

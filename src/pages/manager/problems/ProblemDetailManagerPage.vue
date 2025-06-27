@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { onMounted, ref } from "vue";
 import { Answer, initialAnswer } from "@/types/Answer";
 import { initialProblem, Problem } from "@/types/Problem";
@@ -14,8 +14,8 @@ const answer = ref<Answer>(initialAnswer);
 onMounted(() => {
   if (!RouteUtil.isForRegistration()) {
     const problemId = Number(RouteUtil.extractParam("problemId"));
-    ProblemManipulator.fetchProblem(problemId, problem);
-    ProblemManipulator.fetchAnswer(problemId, answer);
+    ProblemManipulator.fetchProblem(problemId, problem.value);
+    ProblemManipulator.fetchAnswer(problemId, answer.value);
   }
 });
 </script>
@@ -26,7 +26,7 @@ onMounted(() => {
       <h1 class="text-4xl text-left text-gray-600 mb-5">
         {{ $route.name }}
       </h1>
-      <problem-detail-manager-button-view :problem="problem" :answer="answer" />
+      <problem-detail-manager-button-view :answer="answer" :problem="problem" />
     </div>
     <div class="flex flex-row justify-between space-x-5">
       <problem-detail-manager-view v-model:problem="problem" />
