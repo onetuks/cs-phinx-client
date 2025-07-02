@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import StaticsCard from "@/components/widgets/StaticsCard.vue";
 
 const workBookCounts: number = 102;
@@ -9,10 +9,10 @@ const questionCounts: number = 45;
 
 <template>
   <div class="flex flex-row justify-between space-x-4 px-48 pt-56">
-    <StaticsCard title="문제집 수" :content="workBookCounts" />
-    <StaticsCard title="문제 수" :content="problemCounts" />
-    <StaticsCard title="유저 수" :content="userCounts" />
-    <StaticsCard title="질문 수" :content="questionCounts" />
+    <StaticsCard :content="workBookCounts" title="문제집 수" />
+    <StaticsCard :content="problemCounts" title="문제 수" />
+    <StaticsCard :content="userCounts" title="유저 수" />
+    <StaticsCard :content="questionCounts" title="질문 수" />
   </div>
 </template>
 
