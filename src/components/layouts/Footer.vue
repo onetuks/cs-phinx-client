@@ -3,9 +3,9 @@ import LayoutButton from "@/components/layouts/components/LayoutButton.vue";
 </script>
 
 <template>
-  <div class="bg-gray-300 border-t border-t-black px-60 py-5">
+  <div class="border-t border-t-gray-300 py-5 px-40">
     <div class="flex flex-row justify-between">
-      <p>
+      <p class="opacity-85">
         Developer:
         <a
           href="https://github.com/onetuks"
@@ -20,7 +20,7 @@ import LayoutButton from "@/components/layouts/components/LayoutButton.vue";
         <layout-button :button-type="'LINK_SHARE'" />
       </div>
     </div>
-    <div class="my-3 border-t border-t-gray-400 pt-2">
+    <div class="my-3 border-t border-t-gray-200 pt-2">
       <p class="text-xs text-gray-400">
         본 사이트의 콘텐츠는 저작권법의 보호를 받으며, 저작자의 사전 동의 없는
         무단 복제/복사/배포를 금지합니다. Copyright @onetuks

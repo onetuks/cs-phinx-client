@@ -17,6 +17,8 @@ export const RouteUtil = {
     }
     router.push(url);
   },
+
+  // For Manager
   moveToProblemManagerPage: () => RouteUtil.moveToPage("/manager/problems"),
   moveToProblemEditPage: (problemId: number) =>
     RouteUtil.moveToPage(`/manager/problems/${problemId}`),
@@ -27,4 +29,8 @@ export const RouteUtil = {
     RouteUtil.moveToPage(`/manager/workbooks/${workbookId}`),
   moveToWorkbookRegisterPage: () =>
     RouteUtil.moveToPage("/manager/workbooks/registration"),
+
+  // For Challenger
+  moveToWorkbookPage: (workbookId: number) =>
+    RouteUtil.moveToPage(`/challenger/workbooks/${workbookId}`),
 };

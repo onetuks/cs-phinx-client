@@ -8,7 +8,9 @@ import {
 </script>
 
 <template>
-  <div class="flex flex-col w-56 bg-white border-b border-b-gray-300">
+  <div
+    class="absolute top-16 flex flex-col w-40 bg-white border-b border-b-gray-300"
+  >
     <side-bar-main-tab :tab-type="SideBarMainTabs.WORKBOOK_MANAGEMENT" />
     <side-bar-main-tab :tab-type="SideBarMainTabs.PROBLEM_MANAGEMENT" />
     <side-bar-sub-tab :tab-type="SideBarSubTabs.CHOICE_PROB_MANAGEMENT" />

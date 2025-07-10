@@ -3,16 +3,12 @@ import LayoutButton from "@/components/layouts/components/LayoutButton.vue";
 import LayoutTab from "@/components/layouts/components/LayoutTab.vue";
 import { LayoutTabs } from "@/components/layouts/types/LayoutTab";
 import { RouteUtil } from "@/utils/RouteUtil";
-
-const isManager = (): boolean => {
-  // todo: make branch
-  return true;
-};
+import { UserRoleUtil } from "@/utils/UserRoleUtil";
 </script>
 
 <template>
   <div
-    class="bg-white border-b border-b-gray-300 h-16 flex flex-row justify-between items-center px-56"
+    class="border-b border-b-gray-300 h-16 flex flex-row justify-between items-center px-40"
   >
     <div
       class="cursor-pointer flex flex-row justify-between items-center space-x-4"
@@ -30,9 +26,9 @@ const isManager = (): boolean => {
     </div>
     <div class="flex flex-row space-x-4">
       <layout-button
-        v-show="isManager"
+        v-show="UserRoleUtil.isManager()"
         :button-type="'MANAGEMENT'"
-        :class="isManager() ? 'visible' : 'invisible'"
+        :class="UserRoleUtil.isManager() ? 'visible' : 'invisible'"
       />
       <layout-button :button-type="'LOGIN'" />
     </div>
