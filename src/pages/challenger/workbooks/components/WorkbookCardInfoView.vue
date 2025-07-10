@@ -1,12 +1,10 @@
 <script lang="ts" setup>
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { Workbook } from "@/types/WorkBook";
+import { Workbook } from "@/types/Workbook";
 
-/** TODO
- * 1. 제목
- * 2. 컬렉션 타입
- * 3. 포함 문제 수
- * 4. 해결 여부 (사용자 개념 도입되면)
+/** TODO (사용자 개념 도입 시)
+ * 1. 해결여부
+ * 2. 해결한 유저 수
+ * 3. 주요 topic
  */
 
 defineProps<{
@@ -15,11 +13,9 @@ defineProps<{
 </script>
 
 <template>
-  <div class="flex flex-col flex-grow">
-    <div v-text="workbook.collectionType" />
-    <font-awesome-icon v-if="true" :icon="['fas', 'check-to-slot']" />
-    <h1 v-text="workbook.title" />
-    <p v-text="workbook.includedProblems.length" />
+  <div class="flex flex-col flex-grow p-5 pb-8 text-left">
+    <h1 class="text-2xl mb-3" v-text="workbook.title"></h1>
+    <p v-text="`${workbook.includedProblems.length} 문제`" />
   </div>
 </template>
 

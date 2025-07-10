@@ -8,7 +8,7 @@ const questionCounts: number = 45;
 </script>
 
 <template>
-  <div class="flex flex-row justify-between space-x-4 px-48 pt-56">
+  <div class="flex flex-row justify-between space-x-4 px-48 pt-20">
     <StaticsCard :content="workBookCounts" title="문제집 수" />
     <StaticsCard :content="problemCounts" title="문제 수" />
     <StaticsCard :content="userCounts" title="유저 수" />

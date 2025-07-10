@@ -1,3 +1,3 @@
 export const UserRoleUtil = {
-  isManager: (): boolean => true,
+  isManager: (): boolean => false,
 };

@@ -1,8 +1,7 @@
 <template>
   <div id="app" class="flex flex-col min-h-screen">
     <Header />
-    <!--  TODO: 유저롤에 따라 렌더링 되도록 수정  -->
-    <side-bar v-if="!UserRoleUtil.isManager()" />
+    <side-bar v-if="UserRoleUtil.isManager()" />
     <div class="flex flex-row flex-grow overflow-auto px-40">
       <router-view :key="$route.fullPath" class="flex-grow" />
     </div>

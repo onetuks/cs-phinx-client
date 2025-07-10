@@ -1,5 +1,8 @@
 <script lang="ts" setup>
-import { Workbook } from "@/types/WorkBook";
+import { Workbook } from "@/types/Workbook";
+import WorkbookCardImageView from "@/pages/challenger/workbooks/components/WorkbookCardImageView.vue";
+import WorkbookCardInfoView from "@/pages/challenger/workbooks/components/WorkbookCardInfoView.vue";
+import { RouteUtil } from "@/utils/RouteUtil";
 
 defineProps<{
   workbook: Workbook;
@@ -7,8 +10,11 @@ defineProps<{
 </script>
 
 <template>
-  <div class="flex flex-col flex-grow bg-white rounded-lg">
-    <WorkbookCardImageView />
+  <div
+    class="flex flex-col flex-grow rounded-lg border-2 border-gray-200"
+    @click="RouteUtil.moveToWorkbookPage(workbook.workbookId)"
+  >
+    <WorkbookCardImageView :workbook="workbook" />
     <WorkbookCardInfoView :workbook="workbook" />
   </div>
 </template>
