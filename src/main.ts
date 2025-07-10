@@ -14,9 +14,8 @@ import {
 
 createApp(App).use(router).use(toast).mount("#app");
 
-library
-  .add(faPenToSquare)
-  .add(faLeftLong)
-  .add(faRightLong)
-  .add(faTrash)
-  .add(faCheckToSlot);
+library.add(faPenToSquare);
+library.add(faLeftLong);
+library.add(faRightLong);
+library.add(faTrash);
+library.add(faCheckToSlot);
