@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import SideBarMainTab from "@/components/layouts/components/SideBarMainTab.vue";
 import SideBarSubTab from "@/components/layouts/components/SideBarSubTab.vue";
 import {
@@ -8,9 +8,7 @@ import {
 </script>
 
 <template>
-  <div
-    class="sticky top-0 left-0 flex flex-col w-56 min-h-screen bg-white border-b border-b-gray-300"
-  >
+  <div class="flex flex-col w-56 bg-white border-b border-b-gray-300">
     <side-bar-main-tab :tab-type="SideBarMainTabs.WORKBOOK_MANAGEMENT" />
     <side-bar-main-tab :tab-type="SideBarMainTabs.PROBLEM_MANAGEMENT" />
     <side-bar-sub-tab :tab-type="SideBarSubTabs.CHOICE_PROB_MANAGEMENT" />

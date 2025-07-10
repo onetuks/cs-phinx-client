@@ -1,9 +1,9 @@
 <template>
   <div id="app" class="flex flex-col min-h-screen">
     <Header />
-    <div class="flex flex-row">
+    <div class="flex flex-row flex-grow overflow-auto">
       <side-bar v-if="isManagerPage" />
-      <router-view class="flex-grow bg-gray-200" :key="$route.fullPath" />
+      <router-view :key="$route.fullPath" class="flex-grow bg-gray-200" />
     </div>
     <Footer v-if="!isManagerPage" />
   </div>
@@ -27,11 +27,13 @@ export default class App extends Vue {
     return this.$route.path.includes("/manager");
   }
 }
+
+// 폰트 적용 취소 (#app 블록에 넣으면 됨)
+//font-family: DungGeunMo, sans-serif;
 </script>
 
 <style>
 #app {
-  font-family: DungGeunMo, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

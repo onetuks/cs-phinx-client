@@ -1,16 +1,16 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import LayoutButton from "@/components/layouts/components/LayoutButton.vue";
 </script>
 
 <template>
-  <div class="bg-gray-300 border-t border-t-black px-60 py-5 sticky bottom-0">
+  <div class="bg-gray-300 border-t border-t-black px-60 py-5">
     <div class="flex flex-row justify-between">
       <p>
         Developer:
         <a
           href="https://github.com/onetuks"
-          target="_blank"
           rel="noopener noreferrer"
+          target="_blank"
         >
           Se-Young Park
         </a>
