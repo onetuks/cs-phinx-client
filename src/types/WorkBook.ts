@@ -27,3 +27,20 @@ export type CollectionType =
   | "KEY_POINT" // 핵심 쏙쏙 모음집
   | "TRAP_POINT" // 함정 쑥쑥 모음집
   | "DAILY_POINT"; // 오늘 쓱싹 모음집
+
+export const CollectionType = {
+  valueOf: (collectionType: CollectionType): string => {
+    switch (collectionType) {
+      case "TOPIC_POINT":
+        return "과목별 싹싹 모음집";
+      case "QUICK_POINT":
+        return "시험 직전 쓱쓱 모음집";
+      case "KEY_POINT":
+        return "핵심 쏙쏙 모음짐";
+      case "TRAP_POINT":
+        return "함정 쑥쑥 모음집";
+      case "DAILY_POINT":
+        return "오늘 쓱싹 모음집";
+    }
+  },
+};
