@@ -3,7 +3,7 @@ import LayoutButton from "@/components/layouts/components/LayoutButton.vue";
 </script>
 
 <template>
-  <div class="border-t border-t-gray-300 py-5 px-40">
+  <div class="border-t border-t-gray-300 py-5 px-40 bg-white">
     <div class="flex flex-row justify-between">
       <p class="opacity-85">
         Developer:

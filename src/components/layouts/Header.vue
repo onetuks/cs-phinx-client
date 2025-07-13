@@ -8,7 +8,7 @@ import { UserRoleUtil } from "@/utils/UserRoleUtil";
 
 <template>
   <div
-    class="border-b border-b-gray-300 h-16 flex flex-row justify-between items-center px-40"
+    class="border-b border-b-gray-300 h-16 flex flex-row justify-between items-center px-40 bg-white"
   >
     <div
       class="cursor-pointer flex flex-row justify-between items-center space-x-4"
