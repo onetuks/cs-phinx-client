@@ -1,5 +1,6 @@
 import "./assets/css/main.css";
 import { createApp } from "vue";
+import { createPinia } from "pinia";
 import App from "./App.vue";
 import router from "./router";
 import toast from "vue-toastification";
@@ -13,7 +14,7 @@ import {
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 
-createApp(App).use(router).use(toast).mount("#app");
+createApp(App).use(router).use(toast).use(createPinia()).mount("#app");
 
 library.add(faPenToSquare);
 library.add(faLeftLong);
