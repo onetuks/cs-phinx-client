@@ -3,17 +3,22 @@ import { Problem, Topic } from "@/types/Problem";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { onMounted, ref, watch } from "vue";
 import { RouteUtil } from "@/utils/RouteUtil";
+import { useProblemsStore } from "@/stores/Problems";
+import { useWorkbookStore } from "@/stores/Workbook";
 
 type OrderType = "기본" | "가나다" | "난이도" | "토픽";
 const OrderTypes = ["기본", "가나다", "난이도", "토픽"];
 
+const problemsStore = useProblemsStore();
+const workbookStore = useWorkbookStore();
+
 const props = defineProps<{
+  workbookId: number;
   problems: Problem[];
 }>();
 
 const selectedOrderType = ref<OrderType>("기본");
-
-const localProblems = ref<Problem[]>();
+const localProblems = ref<Problem[]>([]);
 
 function onTopicChange() {
   switch (selectedOrderType.value) {
@@ -39,12 +44,18 @@ function onTopicChange() {
 
 watch(
   () => props.problems,
-  (newProblems) => (localProblems.value = [...newProblems]),
+  (newProblems) => {
+    localProblems.value = [...newProblems];
+    problemsStore.setProblems(localProblems.value);
+    workbookStore.setWorkbookId(props.workbookId);
+  },
   { immediate: true }
 );
 
 onMounted(() => {
   localProblems.value = [...props.problems];
+  problemsStore.setProblems(localProblems.value);
+  workbookStore.setWorkbookId(props.workbookId);
 });
 </script>
 

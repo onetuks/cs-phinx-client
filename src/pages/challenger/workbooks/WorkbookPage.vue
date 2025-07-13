@@ -23,7 +23,10 @@ const workbook = ref<Workbook>(initialWorkbook);
 <template>
   <div class="grid grid-cols-2 rounded-2xl bg-secondary my-10 p-5 gap-5">
     <WorkbookInfoView :workbook="workbook" />
-    <WorkbookProblemListView :problems="workbook.includedProblems" />
+    <WorkbookProblemListView
+      :problems="workbook.includedProblems"
+      :workbook-id="workbook.workbookId"
+    />
   </div>
 </template>
 

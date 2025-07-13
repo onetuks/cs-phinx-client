@@ -2,6 +2,31 @@
 import { Answer } from "@/types/Answer";
 import { ref } from "vue";
 import { toaster } from "@/utils/ToastUtil";
+import { GraderApi } from "@/apis/GraderApi";
+
+function reactAboutUserScore(score: number) {
+  if (score >= 100) {
+    toaster.success("정답입니다!!");
+  } else if (score >= 70) {
+    toaster.info("정답에 가깝습니다!");
+  } else if (score >= 50) {
+    toaster.warning("아깝습니다~");
+  } else {
+    toaster.error("오답입니다");
+  }
+}
+
+function clearUserAnswer() {
+  userAnswer.value = "";
+}
+
+function moveToNextProblemPage() {
+  emits("next:problem");
+}
+
+const emits = defineEmits<{
+  (event: "next:problem"): void;
+}>();
 
 const props = defineProps<{
   answer: Answer;
@@ -18,23 +43,6 @@ const gradeAnswer = async () => {
 
   reactAboutUserScore(userScore.value);
 };
-
-const reactAboutUserScore = (score: number) => {
-  switch (score) {
-    case score >= 100:
-      toaster.success("정답입니다!!");
-      break;
-    case score >= 70:
-      toaster.info("정답에 가깝습니다!");
-      break;
-    case score >= 50:
-      toaster.warning("아깝습니다~");
-      break;
-    default:
-      toaster.error("오답입니다");
-      break;
-  }
-};
 </script>
 
 <template>
@@ -44,9 +52,23 @@ const reactAboutUserScore = (score: number) => {
       class="w-full p-4 min-h-52 bg-gray-50 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
       placeholder="답안을 입력하세요"
     />
-    <div class="flex justify-end mt-5">
+
+    <div class="flex justify-end mt-5 gap-3">
       <button
-        class="bg-primary rounded-lg text-white w-fit px-3 py-1"
+        v-if="userScore >= 100"
+        class="bg-secondary rounded-lg text-white w-fit px-3 py-1"
+        @click="moveToNextProblemPage"
+      >
+        다음 문제
+      </button>
+      <button
+        class="bg-secondary rounded-lg text-white w-fit px-3 py-1"
+        @click="clearUserAnswer"
+      >
+        초기화
+      </button>
+      <button
+        class="bg-secondary rounded-lg text-white w-fit px-3 py-1 hover:bg-primary"
         @click="gradeAnswer"
       >
         제출하기

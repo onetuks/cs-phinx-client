@@ -19,6 +19,16 @@ export const get = async (uri: string): Promise<object> => {
     .catch(handleApiError);
 };
 
+export const put = async (uri: string, body: string): Promise<number> => {
+  return await axios
+    .put(BASE_SERVER_URL + uri, body)
+    .then((res) => {
+      console.log(`[PUT] ${uri} - `, res);
+      return res.data;
+    })
+    .catch(handleApiError);
+};
+
 export const post = async (uri: string, body?: object): Promise<number> => {
   function extractLocationHeader(res: AxiosResponse) {
     const locationHeader = res.headers["location"];
