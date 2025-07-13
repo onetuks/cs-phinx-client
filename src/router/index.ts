@@ -66,6 +66,11 @@ const routes = [
     name: "문제집 상세",
     component: () => import("@/pages/challenger/workbooks/WorkbookPage.vue"),
   },
+  {
+    path: "/challenger/problems/:problemId",
+    name: "문제 풀이",
+    component: () => import("@/pages/challenger/problems/ProblemPage.vue"),
+  },
 ];
 
 const router = createRouter({

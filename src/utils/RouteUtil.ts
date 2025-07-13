@@ -33,4 +33,6 @@ export const RouteUtil = {
   // For Challenger
   moveToWorkbookPage: (workbookId: number) =>
     RouteUtil.moveToPage(`/challenger/workbooks/${workbookId}`),
+  moveToProblemPage: (problemId: number) =>
+    RouteUtil.moveToPage(`/challenger/problems/${problemId}`),
 };
