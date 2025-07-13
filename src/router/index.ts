@@ -61,6 +61,11 @@ const routes = [
     component: () =>
       import("@/pages/manager/workbooks/WorkBookDetailManagerPage.vue"),
   },
+  {
+    path: "/challenger/workbooks/:workbookId",
+    name: "문제집 상세",
+    component: () => import("@/pages/challenger/workbooks/WorkbookPage.vue"),
+  },
 ];
 
 const router = createRouter({

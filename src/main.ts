@@ -5,6 +5,7 @@ import router from "./router";
 import toast from "vue-toastification";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
+  faCheck,
   faCheckToSlot,
   faLeftLong,
   faPenToSquare,
@@ -19,3 +20,4 @@ library.add(faLeftLong);
 library.add(faRightLong);
 library.add(faTrash);
 library.add(faCheckToSlot);
+library.add(faCheck);

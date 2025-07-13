@@ -3,19 +3,20 @@ import { onMounted, ref } from "vue";
 import { Answer, initialAnswer } from "@/types/Answer";
 import { initialProblem, Problem } from "@/types/Problem";
 import { RouteUtil } from "@/utils/RouteUtil";
-import { ProblemManipulator } from "@/pages/manager/problems/ProblemManipulator";
 import ProblemDetailManagerView from "@/pages/manager/problems/components/ProblemDetailManagerView.vue";
 import AnswerDetailManagerView from "@/pages/manager/problems/components/AnswerDetailManagerView.vue";
 import ProblemDetailManagerButtonView from "@/pages/manager/problems/components/ProblemDetailManagerButtonView.vue";
+import { ProblemManipulator } from "@/pages/challenger/problems/ProblemManipulator";
 
 const problem = ref<Problem>(initialProblem);
 const answer = ref<Answer>(initialAnswer);
 
-onMounted(() => {
+onMounted(async () => {
   if (!RouteUtil.isForRegistration()) {
     const problemId = Number(RouteUtil.extractParam("problemId"));
-    ProblemManipulator.fetchProblem(problemId, problem.value);
-    ProblemManipulator.fetchAnswer(problemId, answer.value);
+
+    problem.value = ProblemManipulator.fetchProblem(problemId);
+    answer.value = ProblemManipulator.fetchAnswer(problemId);
   }
 });
 </script>

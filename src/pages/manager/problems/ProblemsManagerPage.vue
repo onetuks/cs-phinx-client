@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -7,7 +7,7 @@ import { ProblemApis } from "@/apis/ProblemApis";
 import { Page, PageUtil } from "@/utils/PageUtil";
 import { AnswerTypeUtil } from "@/types/Answer";
 import { DateUtil } from "@/utils/DateUtil";
-import { ProblemManipulator } from "@/pages/manager/problems/ProblemManipulator";
+import { ProblemManagerManipulator } from "@/pages/manager/problems/ProblemManagerManipulator";
 import { RouteUtil } from "@/utils/RouteUtil";
 
 const headers = [
@@ -30,7 +30,7 @@ const toggleProblemActiveness = async (problem: Problem): Promise<void> => {
   if (!targetProblem) return;
   targetProblem.isActive = !targetProblem.isActive;
 
-  ProblemManipulator.editProblem(targetProblem);
+  ProblemManagerManipulator.editProblem(targetProblem);
 };
 
 onMounted(() => fetchProblems());
@@ -89,13 +89,13 @@ const fetchNextPage = () => {};
           <td class="px-4 py-2 border border-gray-300">
             <div class="flex flex-grow items-center justify-center">
               <div
-                @click="toggleProblemActiveness(problem)"
-                class="w-12 h-6 flex items-center cursor-pointer rounded-full"
                 :class="problem.isActive ? 'bg-secondary' : 'bg-gray-300'"
+                class="w-12 h-6 flex items-center cursor-pointer rounded-full"
+                @click="toggleProblemActiveness(problem)"
               >
                 <div
-                  class="w-4 h-4 bg-white rounded-full shadow transform transition-transform duration-300"
                   :class="problem.isActive ? 'translate-x-6' : 'translate-x-2'"
+                  class="w-4 h-4 bg-white rounded-full shadow transform transition-transform duration-300"
                 ></div>
               </div>
             </div>
@@ -123,7 +123,9 @@ const fetchNextPage = () => {};
                   'shadow transform transition-transform duration-300',
                   'bg-secondary hover:bg-primary',
                 ]"
-                @click="ProblemManipulator.removeProblem(problem.problemId)"
+                @click="
+                  ProblemManagerManipulator.removeProblem(problem.problemId)
+                "
               >
                 <font-awesome-icon :icon="['fas', 'trash']" />
               </div>

@@ -15,17 +15,7 @@ import {
 import { AnswerCommand } from "@/apis/commands/AnswerCommand";
 import { RouteUtil } from "@/utils/RouteUtil";
 
-export const ProblemManipulator = {
-  fetchProblem: async (problemId: number, problem: Problem) => {
-    await ProblemApis.getProblem(problemId).then((res: Problem) => {
-      problem = res;
-    });
-  },
-  fetchAnswer: async (problemId: number, answer: Answer) => {
-    await AnswerApis.getAnswer(problemId).then((res: Answer) => {
-      answer = res;
-    });
-  },
+export const ProblemManagerManipulator = {
   registerProblem: async (problem: Problem, answer: Answer) => {
     await ProblemApis.postNewProblem(ProblemCommand.fromProblem(problem)).then(
       async (problemId) => {

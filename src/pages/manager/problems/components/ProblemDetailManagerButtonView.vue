@@ -1,6 +1,6 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { RouteUtil } from "@/utils/RouteUtil";
-import { ProblemManipulator } from "@/pages/manager/problems/ProblemManipulator";
+import { ProblemManagerManipulator } from "@/pages/manager/problems/ProblemManagerManipulator";
 import { Problem } from "@/types/Problem";
 import { Answer } from "@/types/Answer";
 import ManagerButton from "@/components/widgets/ManagerButton.vue";
@@ -14,23 +14,25 @@ defineProps<{
 <template>
   <div class="px-5">
     <div
-      class="flex flex-row justify-end space-x-4"
       v-if="RouteUtil.isForRegistration()"
+      class="flex flex-row justify-end space-x-4"
     >
       <manager-button
         :click-button-type="'등록하기'"
-        @click-button="ProblemManipulator.registerProblem(problem, answer)"
+        @click-button="
+          ProblemManagerManipulator.registerProblem(problem, answer)
+        "
       />
     </div>
-    <div class="flex flex-row justify-end space-x-4" v-else>
+    <div v-else class="flex flex-row justify-end space-x-4">
       <manager-button
         :click-button-type="'수정하기'"
-        @click-button="ProblemManipulator.editProblem(problem, answer)"
+        @click-button="ProblemManagerManipulator.editProblem(problem, answer)"
       />
       <manager-button
         :click-button-type="'삭제하기'"
         @click-button="
-          ProblemManipulator.removeProblem(
+          ProblemManagerManipulator.removeProblem(
             problem.value.problemId,
             answer.value.answerId
           )

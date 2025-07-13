@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Difficulty, Problem } from "@/types/Problem";
+import { Difficulty, Problem, Topic } from "@/types/Problem";
 import { ref } from "vue";
 
 const problem = defineModel("problem", {
