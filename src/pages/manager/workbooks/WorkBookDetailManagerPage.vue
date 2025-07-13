@@ -10,9 +10,9 @@ import { Problem } from "@/types/Problem";
 import { initialWorkbook, Workbook } from "@/types/Workbook";
 import { ProblemApis } from "@/apis/ProblemApis";
 import { WorkbookApis } from "@/apis/WorkbookApis";
-import WorkbookProblemTable from "@/pages/manager/workbooks/components/WorkbookProblemTable.vue";
+import WorkbookDetailManagerProblemTable from "@/pages/manager/workbooks/components/WorkbookDetailManagerProblemTable.vue";
 import ManagerButton from "@/components/widgets/ManagerButton.vue";
-import WorkbookInfoView from "@/pages/manager/workbooks/components/WorkbookInfoView.vue";
+import WorkbookDetailManagerInfoView from "@/pages/manager/workbooks/components/WorkbookDetailManagerInfoView.vue";
 import { WorkbookCommand } from "@/apis/commands/WorkbookCommand";
 import { RouteUtil } from "@/utils/RouteUtil";
 
@@ -94,7 +94,7 @@ const fetchAllProblems = async () => {
       {{ $route.name }}
     </h1>
 
-    <workbook-info-view
+    <workbook-detail-manager-info-view
       :workbook="workbook"
       @update:workbook="updateWorkbook"
     />
@@ -102,12 +102,12 @@ const fetchAllProblems = async () => {
     <div
       class="mb-4 bg-secondary border border-gray-400 rounded-md px-5 py-2 flex flex-row justify-between space-x-4"
     >
-      <workbook-problem-table
+      <workbook-detail-manager-problem-table
         :problems="includedProblems"
         title="포함된 문제"
         @toggle-problem="handleToggleProblem"
       />
-      <workbook-problem-table
+      <workbook-detail-manager-problem-table
         :problems="excludedProblems"
         title="미포함 문제"
         @toggle-problem="handleToggleProblem"
