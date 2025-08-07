@@ -1,6 +1,7 @@
 import { Answer } from "@/types/Answer";
 import { AnswerResponse } from "@/apis/responses/AnswerResponse";
 import { get, patch, post, remove } from "@/utils/ApiRequestUtil";
+import { AnswerCommand } from "@/apis/commands/AnswerCommand";
 
 const BASE_URI = "/answers" as const;
 
