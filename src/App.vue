@@ -10,11 +10,11 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
+import {Options, Vue} from "vue-class-component";
 import Footer from "@/components/layouts/Footer.vue";
 import Header from "@/components/layouts/Header.vue";
 import SideBar from "@/components/layouts/SideBar.vue";
-import { UserRoleUtil } from "@/utils/UserRoleUtil";
+import {UserRoleUtil} from "@/utils/UserRoleUtil";
 
 @Options({
   methods: { UserRoleUtil },
@@ -29,11 +29,4 @@ export default class App extends Vue {
 }
 </script>
 
-<style>
-#app {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  height: 100%;
-}
-</style>
+<style></style>
