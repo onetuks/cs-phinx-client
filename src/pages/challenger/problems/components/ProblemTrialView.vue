@@ -38,7 +38,7 @@ const userScore = ref<number>(0);
 const gradeAnswer = async () => {
   userScore.value = await GraderApi.putUserAnswer(
     props.answer.answerId,
-    userAnswer.value
+    userAnswer.value,
   );
 
   reactAboutUserScore(userScore.value);
@@ -54,25 +54,11 @@ const gradeAnswer = async () => {
     />
 
     <div class="flex justify-end mt-5 gap-3">
-      <button
-        v-if="userScore >= 100"
-        class="bg-secondary rounded-lg text-white w-fit px-3 py-1"
-        @click="moveToNextProblemPage"
-      >
+      <button v-if="userScore >= 100" @click="moveToNextProblemPage">
         다음 문제
       </button>
-      <button
-        class="bg-secondary rounded-lg text-white w-fit px-3 py-1"
-        @click="clearUserAnswer"
-      >
-        초기화
-      </button>
-      <button
-        class="bg-secondary rounded-lg text-white w-fit px-3 py-1 hover:bg-primary"
-        @click="gradeAnswer"
-      >
-        제출하기
-      </button>
+      <button @click="clearUserAnswer">초기화</button>
+      <button @click="gradeAnswer">제출하기</button>
     </div>
   </div>
 </template>

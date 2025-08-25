@@ -1,6 +1,6 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import router from "@/router";
-import { toaster } from "@/utils/ToastUtil";
+import {toaster} from "@/utils/ToastUtil";
 
 type LayoutButtonType =
   | "FEEDBACK"
@@ -56,14 +56,7 @@ const handleClick = async (buttonType: LayoutButtonType): Promise<void> => {
 </script>
 
 <template>
-  <button
-    :class="[
-      'bg-primary text-white text-sm w-fit px-2 py-1 rounded-md',
-      'hover:bg-secondary hover:text-primary',
-      'active:bg-secondary active:text-primary',
-    ]"
-    @click="handleClick(buttonType)"
-  >
+  <button class="small" @click="handleClick(buttonType)">
     {{ mapToLabel(buttonType) }}
   </button>
 </template>

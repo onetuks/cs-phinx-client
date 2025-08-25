@@ -1,12 +1,15 @@
 <script lang="ts" setup>
-import { onMounted, ref } from "vue";
-import { Answer, initialAnswer } from "@/types/Answer";
-import { initialProblem, Problem } from "@/types/Problem";
-import { RouteUtil } from "@/utils/RouteUtil";
-import ProblemDetailManagerView from "@/pages/manager/problems/components/ProblemDetailManagerView.vue";
-import AnswerDetailManagerView from "@/pages/manager/problems/components/AnswerDetailManagerView.vue";
-import ProblemDetailManagerButtonView from "@/pages/manager/problems/components/ProblemDetailManagerButtonView.vue";
-import { ProblemManipulator } from "@/pages/challenger/problems/ProblemManipulator";
+import {onMounted, ref} from "vue";
+import {Answer, initialAnswer} from "@/types/Answer";
+import {initialProblem, Problem} from "@/types/Problem";
+import {RouteUtil} from "@/utils/RouteUtil";
+import ProblemDetailManagerView
+  from "@/pages/manager/problems/components/ProblemDetailManagerView.vue";
+import AnswerDetailManagerView
+  from "@/pages/manager/problems/components/AnswerDetailManagerView.vue";
+import ProblemDetailManagerButtonView
+  from "@/pages/manager/problems/components/ProblemDetailManagerButtonView.vue";
+import {ProblemManipulator} from "@/pages/challenger/problems/ProblemManipulator";
 
 const problem = ref<Problem>(initialProblem);
 const answer = ref<Answer>(initialAnswer);
@@ -24,7 +27,7 @@ onMounted(async () => {
 <template>
   <div class="p-10">
     <div class="flex flex-row justify-between items-center">
-      <h1 class="text-4xl text-left text-gray-600 mb-5">
+      <h1 class="mb-5">
         {{ $route.name }}
       </h1>
       <problem-detail-manager-button-view :answer="answer" :problem="problem" />

@@ -1,20 +1,22 @@
 <script lang="ts" setup>
-import { onMounted, ref } from "vue";
+import {onMounted, ref} from "vue";
 import {
   toaster,
   WORKBOOK_EDIT_SUCCESS,
   WORKBOOK_REGISTER_SUCCESS,
   WORKBOOK_REMOVE_SUCCESS,
 } from "@/utils/ToastUtil";
-import { Problem } from "@/types/Problem";
-import { initialWorkbook, Workbook } from "@/types/Workbook";
-import { ProblemApis } from "@/apis/ProblemApis";
-import { WorkbookApis } from "@/apis/WorkbookApis";
-import WorkbookDetailManagerProblemTable from "@/pages/manager/workbooks/components/WorkbookDetailManagerProblemTable.vue";
+import {Problem} from "@/types/Problem";
+import {initialWorkbook, Workbook} from "@/types/Workbook";
+import {ProblemApis} from "@/apis/ProblemApis";
+import {WorkbookApis} from "@/apis/WorkbookApis";
+import WorkbookDetailManagerProblemTable
+  from "@/pages/manager/workbooks/components/WorkbookDetailManagerProblemTable.vue";
 import ManagerButton from "@/components/widgets/ManagerButton.vue";
-import WorkbookDetailManagerInfoView from "@/pages/manager/workbooks/components/WorkbookDetailManagerInfoView.vue";
-import { WorkbookCommand } from "@/apis/commands/WorkbookCommand";
-import { RouteUtil } from "@/utils/RouteUtil";
+import WorkbookDetailManagerInfoView
+  from "@/pages/manager/workbooks/components/WorkbookDetailManagerInfoView.vue";
+import {WorkbookCommand} from "@/apis/commands/WorkbookCommand";
+import {RouteUtil} from "@/utils/RouteUtil";
 
 const workbook = ref<Workbook>(initialWorkbook);
 const includedProblems = ref<Problem[]>([]);
@@ -90,7 +92,7 @@ const fetchAllProblems = async () => {
 
 <template>
   <div class="px-10">
-    <h1 class="text-4xl text-left text-gray-600 py-5">
+    <h1 class="py-5">
       {{ $route.name }}
     </h1>
 

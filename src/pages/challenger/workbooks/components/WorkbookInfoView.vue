@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { CollectionType, Workbook } from "@/types/Workbook";
+import {CollectionType, Workbook} from "@/types/Workbook";
 
 defineProps<{
   workbook: Workbook;
@@ -13,7 +13,7 @@ const getAllProblemsTags = (workbook: Workbook): string[] => {
 <template>
   <div class="flex flex-col bg-white rounded-lg text-left p-5">
     <!--  Title  -->
-    <h1 class="text-2xl font-bold text-gray-900" v-text="workbook.title" />
+    <h1 v-text="workbook.title" />
 
     <!--  CollectionType -->
     <div
@@ -28,7 +28,7 @@ const getAllProblemsTags = (workbook: Workbook): string[] => {
 
     <!--  TAG  -->
     <div class="flex flex-col">
-      <h2 class="text-xl">관련 태그</h2>
+      <h4>관련 태그</h4>
       <div class="flex flex-wrap gap-2 my-3 h-fit">
         <div
           v-for="tag in getAllProblemsTags(workbook)"

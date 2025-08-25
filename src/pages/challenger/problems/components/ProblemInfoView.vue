@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Problem } from "@/types/Problem";
+import {Problem} from "@/types/Problem";
 
 defineProps<{
   problem: Problem;
@@ -9,7 +9,7 @@ defineProps<{
 <template>
   <div class="flex flex-col bg-white rounded-lg text-left p-5">
     <!--  Title  -->
-    <h1 class="text-2xl font-bold text-gray-900" v-text="problem.title" />
+    <h3 v-text="problem.title" />
 
     <!--  Topic & Difficulty -->
     <div class="flex flex-grow gap-5 my-3 justify-between">
@@ -35,7 +35,7 @@ defineProps<{
 
     <!--  TAG  -->
     <div class="flex flex-col">
-      <h2 class="text-xl">관련 태그</h2>
+      <h4>관련 태그</h4>
       <div class="flex flex-wrap gap-2 my-3 h-fit">
         <div
           v-for="tag in problem.tags"

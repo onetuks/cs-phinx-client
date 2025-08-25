@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { Difficulty, Problem, Topic } from "@/types/Problem";
-import { ref } from "vue";
+import {Difficulty, Problem, Topic} from "@/types/Problem";
+import {ref} from "vue";
 
 const problem = defineModel("problem", {
   required: true,
@@ -25,7 +25,7 @@ const toggleIsActive = (): void => {
 
 <template>
   <div class="w-full">
-    <h3 class="text-xl">문제 관리 섹션</h3>
+    <h4>문제 관리 섹션</h4>
     <div class="mb-4 text-start px-5 py-2">
       <label class="block text-sm mb-1">문제번호</label>
       <input
@@ -90,12 +90,7 @@ const toggleIsActive = (): void => {
           type="text"
           @keyup.enter="addTag"
         />
-        <button
-          class="rounded border-gray-500 border bg-secondary hover:bg-primary w-20 text-white"
-          @click="addTag"
-        >
-          추가
-        </button>
+        <button @click="addTag">추가</button>
       </div>
       <div
         class="flex flex-row bg-secondary mt-5 px-5 py-2 justify-start space-x-2 rounded-md border border-gray-400"

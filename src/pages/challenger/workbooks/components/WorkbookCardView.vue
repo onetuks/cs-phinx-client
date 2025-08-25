@@ -11,7 +11,7 @@ defineProps<{
 
 <template>
   <div
-    class="flex flex-col flex-grow rounded-lg border-2 border-gray-200"
+    class="flex flex-col flex-grow rounded-lg border-2 border-gray-200 bg-white"
     @click="RouteUtil.moveToWorkbookPage(workbook.workbookId)"
   >
     <WorkbookCardImageView :workbook="workbook" />

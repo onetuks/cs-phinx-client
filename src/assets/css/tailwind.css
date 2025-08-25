@@ -10,11 +10,35 @@
 @layer base {
   body {
     @apply text-gray-600 bg-gray-100 justify-center transition-colors duration-75
-    text-center font-sans leading-tight;
+    text-center font-sans leading-tight
+    flex flex-col min-h-screen;
 
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizelegibility;
+  }
+
+  button {
+    @apply bg-secondary
+    text-white text-center
+    rounded-lg px-2 py-1 h-fit w-fit
+    hover:bg-primary;
+  }
+
+  button.small {
+    @apply bg-primary rounded-md text-sm hover:bg-secondary;
+  }
+
+  button.big {
+    @apply text-lg w-full p-5 rounded-md;
+  }
+
+  button.icon {
+    @apply absolute right-3 top-1/2 transform -translate-y-1/2;
+  }
+
+  button.tab {
+    @apply bg-transparent w-24 text-center group-hover:text-black;
   }
 
   a {
@@ -27,5 +51,27 @@
 
   *:hover {
     @apply transition duration-300 ease-in-out;
+  }
+
+  h1 {
+    @apply text-4xl text-left text-gray-600;
+  }
+
+  h2 {
+    @apply text-3xl;
+  }
+
+  h3 {
+    @apply text-2xl text-primary;
+  }
+
+  h4 {
+    @apply text-lg text-primary;
+  }
+}
+
+@layer components {
+  .app-body {
+    @apply flex flex-row flex-grow px-40 overflow-auto;
   }
 }

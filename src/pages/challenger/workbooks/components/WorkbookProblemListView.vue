@@ -20,23 +20,23 @@ const props = defineProps<{
 const selectedOrderType = ref<OrderType>("기본");
 const localProblems = ref<Problem[]>([]);
 
-function onTopicChange() {
+function onOrderTypeChange() {
   switch (selectedOrderType.value) {
     case "가나다":
       localProblems.value.sort((a: Problem, b: Problem) =>
-        a.title.localeCompare(b.title)
+        a.title.localeCompare(b.title),
       );
       break;
     case "난이도":
       const difficultyOrder = { EASY: 1, MEDIUM: 2, HARD: 3 };
       localProblems.value.sort(
         (a: Problem, b: Problem) =>
-          difficultyOrder[a.difficulty] - difficultyOrder[b.difficulty]
+          difficultyOrder[a.difficulty] - difficultyOrder[b.difficulty],
       );
       break;
     case "토픽":
       localProblems.value.sort((a: Problem, b: Problem) =>
-        a.topic.localeCompare(b.topic)
+        a.topic.localeCompare(b.topic),
       );
       break;
   }
@@ -49,7 +49,7 @@ watch(
     problemsStore.setProblems(localProblems.value);
     workbookStore.setWorkbookId(props.workbookId);
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 onMounted(() => {
@@ -62,12 +62,9 @@ onMounted(() => {
 <template>
   <div class="flex flex-col bg-white rounded-lg">
     <div class="flex flex-row h-8 items-center justify-between px-3 mb-3">
-      <h1
-        class="font-bold text-lg text-primary"
-        v-text="`${problems.length}문제`"
-      />
+      <h4 v-text="`${problems.length}문제`" />
 
-      <select v-model="selectedOrderType" @change="onTopicChange">
+      <select v-model="selectedOrderType" @change="onOrderTypeChange">
         <option
           v-for="orderType in OrderTypes"
           :key="orderType"
@@ -95,7 +92,7 @@ onMounted(() => {
         <font-awesome-icon :icon="['fas', 'check']" class="text-primary" />
       </div>
       <div class="min-w-56 flex-shrink-0">
-        <h1 class="min-w-56 flex-shrink-0" v-text="problem.title" />
+        <p class="min-w-56 flex-shrink-0" v-text="problem.title" />
         <p
           class="min-w-56 text-xs flex-shrink-0 text-gray-500"
           v-text="Topic.valueOf(problem.topic)"

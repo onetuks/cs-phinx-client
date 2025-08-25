@@ -15,35 +15,35 @@ function getIcon(name: string): string {
     return "fa-solid fa-paw";
   }
 }
+
+function setColor(isCompleted: boolean) {
+  if (isCompleted) {
+    return "border-green-300 text-green-300";
+  }
+  return "border-gray-200 text-gray-200";
+}
 </script>
 
 <template>
   <div>
     <div
-      :class="{
-        'border-gray-200': !isCompleted,
-        'border-green-300': isCompleted,
-      }"
-      class="rounded-full border-4 p-10"
+      :class="setColor(isCompleted)"
+      class="rounded-full border-4 py-10 px-8 mb-5"
     >
       <font-awesome-icon
-        :class="{
-          'text-gray-200': !isCompleted,
-          'text-green-300': isCompleted,
-        }"
+        :class="setColor(isCompleted)"
         :icon="getIcon(name)"
         class="text-7xl"
       />
     </div>
-    <p
+    <h4
       :class="{
         'text-primary': isCompleted,
         'text-gray-200': !isCompleted,
       }"
-      class="mt-5 font-bold text-lg"
     >
       {{ name }}
-    </p>
+    </h4>
   </div>
 </template>
 

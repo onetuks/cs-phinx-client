@@ -1,6 +1,6 @@
-<script setup lang="ts">
-import { Answer, AnswerTypes } from "@/types/Answer";
-import { ref } from "vue";
+<script lang="ts" setup>
+import {Answer, AnswerTypes} from "@/types/Answer";
+import {ref} from "vue";
 
 const answer = defineModel("answer", {
   required: true,
@@ -24,14 +24,14 @@ const removeAnswerValue = (answerValue: string) => {
 
 <template>
   <div class="w-full">
-    <h3 class="text-xl">답안 관리 섹션</h3>
+    <h4>답안 관리 섹션</h4>
     <div class="mb-4 text-start px-5 py-2">
       <label class="block text-sm mb-1">답안번호</label>
       <input
         v-model="answer.answerId"
-        type="text"
         class="border px-2 py-1 w-full"
         disabled
+        type="text"
       />
     </div>
 
@@ -39,9 +39,9 @@ const removeAnswerValue = (answerValue: string) => {
       <label class="block text-sm mb-1">문제번호</label>
       <input
         v-model="answer.problemId"
-        type="text"
         class="border px-2 py-1 w-full"
         disabled
+        type="text"
       />
     </div>
 
@@ -66,26 +66,21 @@ const removeAnswerValue = (answerValue: string) => {
       <div class="flex flex-row space-x-5">
         <input
           v-model="newAnswerValue"
-          type="text"
           class="border px-2 py-1 w-full"
-          @keyup.enter="addAnswerValue"
           placeholder="모범답안을 입력하세요"
+          type="text"
+          @keyup.enter="addAnswerValue"
         />
-        <button
-          class="rounded border-gray-500 border bg-secondary hover:bg-primary w-20 text-white"
-          @click="addAnswerValue"
-        >
-          추가
-        </button>
+        <button @click="addAnswerValue">추가</button>
       </div>
       <div
         class="flex flex-row bg-secondary mt-5 px-5 py-2 justify-start space-x-2 rounded-md border border-gray-400"
       >
         <div
           v-for="answerValue in answer.answerValues"
-          v-text="answerValue"
           class="text-white bg-primary rounded-md px-3 py-1"
           @click="removeAnswerValue(answerValue)"
+          v-text="answerValue"
         />
       </div>
     </div>

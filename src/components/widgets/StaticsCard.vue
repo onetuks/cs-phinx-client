@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 defineProps<{
   title: String;
   content: String;
@@ -9,8 +9,8 @@ defineProps<{
   <div
     class="bg-white border-gray-200 rounded-lg w-56 h-72 items-center flex flex-col justify-between py-20 shadow-lg"
   >
-    <h1 class="text-3xl">{{ title }}</h1>
-    <h3 class="text-2xl text-primary">{{ content }}</h3>
+    <h2>{{ title }}</h2>
+    <h3>{{ content }}</h3>
   </div>
 </template>
 

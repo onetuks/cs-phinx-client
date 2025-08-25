@@ -42,13 +42,10 @@ const fetchNextPage = () => {};
 <template>
   <div class="flex flex-col px-10">
     <div class="flex flex-row justify-between items-center">
-      <h1 class="text-4xl text-left text-gray-600 px-10 py-5">
+      <h1 class="py-5">
         {{ $route.name }}
       </h1>
-      <button
-        class="bg-secondary text-white rounded-lg px-4 py-2 hover:bg-primary h-fit"
-        @click="RouteUtil.moveToWorkbookRegisterPage"
-      >
+      <button @click="RouteUtil.moveToWorkbookRegisterPage">
         문제집 등록하기
       </button>
     </div>
@@ -117,17 +114,11 @@ const fetchNextPage = () => {};
     </table>
 
     <div class="flex flex-row justify-end space-x-5 my-5">
-      <button
-        class="bg-secondary text-white rounded-lg px-4 py-2 hover:bg-primary"
-        @click="fetchPrevPage"
-      >
+      <button @click="fetchPrevPage">
         <font-awesome-icon :icon="['fas', 'left-long']" />
       </button>
 
-      <button
-        class="bg-secondary text-white rounded-lg px-4 py-2 hover:bg-primary"
-        @click="fetchNextPage"
-      >
+      <button @click="fetchNextPage">
         <font-awesome-icon :icon="['fas', 'right-long']" />
       </button>
     </div>

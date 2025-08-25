@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import { ClickButtonType } from "@/types/Workbook";
+<script lang="ts" setup>
+import {ClickButtonType} from "@/types/Workbook";
 
 const props = defineProps<{
   clickButtonType: ClickButtonType;
@@ -14,10 +14,7 @@ const clickButton = (): void => {
 </script>
 
 <template>
-  <button
-    @click="clickButton"
-    class="bg-secondary text-white px-4 py-2 rounded hover:bg-primary"
-  >
+  <button @click="clickButton">
     {{ clickButtonType }}
   </button>
 </template>
