@@ -68,10 +68,39 @@
   h4 {
     @apply text-lg text-primary;
   }
+
+  p.table {
+    @apply text-gray-500;
+  }
+
+  p.table.head {
+    @apply font-bold;
+  }
+
+  select {
+    @apply bg-secondary text-white rounded-lg px-2 py-1
+  }
 }
 
 @layer components {
   .app-body {
-    @apply flex flex-row flex-grow px-40 overflow-auto;
+    @apply flex flex-row flex-grow overflow-auto px-40 pt-20;
+  }
+
+  .app.layout {
+    @apply bg-white border-b-gray-300 z-50;
+  }
+
+  .app.layout.header {
+    @apply border-b h-16 px-40 top-0 left-0 w-full fixed
+    flex flex-row justify-between items-center;
+  }
+
+  .app.layout.footer {
+    @apply border-t py-5 px-40 bottom-0 left-0 w-full;
+  }
+
+  .app.layout.side-bar {
+    @apply w-40 flex flex-col fixed left-0 top-16;
   }
 }

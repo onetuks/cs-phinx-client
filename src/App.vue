@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="flex flex-col min-h-screen">
     <Header />
     <side-bar v-if="UserRoleUtil.isManager()" />
     <div class="app-body">

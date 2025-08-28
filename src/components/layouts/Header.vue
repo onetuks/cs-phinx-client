@@ -7,9 +7,7 @@ import { UserRoleUtil } from "@/utils/UserRoleUtil";
 </script>
 
 <template>
-  <div
-    class="border-b border-b-gray-300 h-16 flex flex-row justify-between items-center px-40 bg-white"
-  >
+  <div class="app layout header">
     <div
       class="cursor-pointer flex flex-row justify-between items-center space-x-4"
       @click="RouteUtil.moveToPage('/')"
