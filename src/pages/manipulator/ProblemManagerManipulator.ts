@@ -26,26 +26,31 @@ export const ProblemManagerManipulator = {
             toaster.success(PROBLEM_REGISTER_SUCCESS);
             toaster.success(ANSWER_REGISTER_SUCCESS);
             RouteUtil.moveToProblemEditPage(problemId);
-          }
+          },
         );
-      }
+      },
     );
   },
-  editProblem: async (problem: Problem, answer: Answer) => {
+  editProblem: async (problem: Problem, answer?: Answer) => {
     await ProblemApis.patchProblem(
       problem.problemId,
-      ProblemCommand.fromProblem(problem)
+      ProblemCommand.fromProblem(problem),
     ).then(async () => {
+      if (answer === undefined) {
+        toaster.success(PROBLEM_EDIT_SUCCESS);
+        return;
+      }
+
       await AnswerApis.patchAnswer(
         answer.answerId,
-        AnswerCommand.fromAnswer(answer)
+        AnswerCommand.fromAnswer(answer),
       ).then(() => {
         toaster.success(PROBLEM_EDIT_SUCCESS);
         toaster.success(ANSWER_EDIT_SUCCESS);
       });
     });
   },
-  removeProblem: async (problemId: number, answerId: number) => {
+  removeProblem: async (problemId: number, answerId?: number) => {
     if (answerId === -1 || answerId === undefined) {
       await ProblemApis.deleteProblem(problemId).then(() => {
         toaster.success(PROBLEM_REMOVE_SUCCESS);

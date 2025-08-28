@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import {Answer, AnswerTypes} from "@/types/Answer";
-import {ref} from "vue";
+import { Answer, AnswerType } from "@/types/Answer";
+import { ref } from "vue";
 
 const answer = defineModel("answer", {
   required: true,
@@ -17,7 +17,7 @@ const addAnswerValue = () => {
 };
 const removeAnswerValue = (answerValue: string) => {
   answer.value.answerValues = answer.value.answerValues.filter(
-    (a) => a !== answerValue
+    (a) => a !== answerValue,
   );
 };
 </script>
@@ -52,7 +52,7 @@ const removeAnswerValue = (answerValue: string) => {
         class="border px-2 py-1 w-full rounded"
       >
         <option
-          v-for="answerType in AnswerTypes"
+          v-for="answerType in AnswerType.values()"
           :key="answerType"
           :value="answerType"
         >

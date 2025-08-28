@@ -13,7 +13,7 @@ const problemsStore = useProblemsStore();
 const workbookStore = useWorkbookStore();
 
 const props = defineProps<{
-  workbookId: number;
+  workbookId?: number;
   problems: Problem[];
 }>();
 
@@ -47,7 +47,9 @@ watch(
   (newProblems) => {
     localProblems.value = [...newProblems];
     problemsStore.setProblems(localProblems.value);
-    workbookStore.setWorkbookId(props.workbookId);
+    if (props.workbookId) {
+      workbookStore.setWorkbookId(props.workbookId);
+    }
   },
   { immediate: true },
 );
@@ -55,13 +57,15 @@ watch(
 onMounted(() => {
   localProblems.value = [...props.problems];
   problemsStore.setProblems(localProblems.value);
-  workbookStore.setWorkbookId(props.workbookId);
+  if (props.workbookId) {
+    workbookStore.setWorkbookId(props.workbookId);
+  }
 });
 </script>
 
 <template>
   <div class="flex flex-col bg-white rounded-lg">
-    <div class="flex flex-row h-8 items-center justify-between px-3 mb-3">
+    <div class="flex flex-row h-8 items-center justify-between px-3 my-3">
       <h4 v-text="`${problems.length}문제`" />
 
       <select v-model="selectedOrderType" @change="onOrderTypeChange">
@@ -74,12 +78,13 @@ onMounted(() => {
       </select>
     </div>
 
+    <!--  테이블 헤드  -->
     <div class="flex flex-row h-8 items-center border-b-2 border-gray-200">
-      <p class="text-gray-500 font-bold w-16">상태</p>
-      <p class="text-gray-500 font-bold min-w-56">제목</p>
-      <p class="text-gray-500 font-bold w-20">난이도</p>
-      <p class="text-gray-500 font-bold w-20">완료한 사람</p>
-      <p class="text-gray-500 font-bold w-20">정답률</p>
+      <p class="table head flex-1">상태</p>
+      <p class="table head flex-7">제목</p>
+      <p class="table head flex-2">난이도</p>
+      <p class="table head flex-2">완료한 사람</p>
+      <p class="table head flex-2">정답률</p>
     </div>
 
     <div
@@ -88,27 +93,36 @@ onMounted(() => {
       class="flex flex-row h-10 items-center py-1 border-b-[1px] border-gray-200 hover:bg-gray-100 transition-colors duration-200"
       @click="RouteUtil.moveToProblemPage(problem.problemId)"
     >
-      <div class="flex-shrink-0 w-16 flex justify-center items-center">
+      <!--   상태   -->
+      <div class="flex-shrink-0 flex-1 flex justify-center items-center">
         <font-awesome-icon :icon="['fas', 'check']" class="text-primary" />
       </div>
-      <div class="min-w-56 flex-shrink-0">
-        <p class="min-w-56 flex-shrink-0" v-text="problem.title" />
+
+      <!--   제목 & 토픽  -->
+      <div class="flex-7">
+        <p class="flex-7 flex-shrink-0" v-text="problem.title" />
         <p
-          class="min-w-56 text-xs flex-shrink-0 text-gray-500"
+          class="flex-7 text-xs flex-shrink-0"
           v-text="Topic.valueOf(problem.topic)"
         />
       </div>
+
+      <!--  난이도   -->
       <p
         :class="{
           'text-red-500': problem.difficulty === 'HARD',
           'text-yellow-500': problem.difficulty === 'MEDIUM',
           'text-green-500': problem.difficulty === 'EASY',
         }"
-        class="text-gray-500 w-20"
+        class="flex-2"
         v-text="problem.difficulty"
       />
-      <p class="text-gray-500 w-20">완료한 사람</p>
-      <p class="text-gray-500 w-20">정답률</p>
+
+      <!--   완료한 사람   -->
+      <p class="flex-2">완료한 사람</p>
+
+      <!--   정답률   -->
+      <p class="flex-2">정답률</p>
     </div>
   </div>
 </template>

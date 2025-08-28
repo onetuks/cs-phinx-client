@@ -15,7 +15,7 @@ export const RouteUtil = {
       location.reload();
       return;
     }
-    router.push(url);
+    router.push(url).then(() => {});
   },
 
   // For Manager
@@ -25,7 +25,7 @@ export const RouteUtil = {
   moveToProblemRegisterPage: () =>
     RouteUtil.moveToPage("/manager/problems/registration"),
   moveToWorkbookManagerPage: () => RouteUtil.moveToPage("/manager/workbooks"),
-  moveToWorkbookEditPage: (workbookId: string) =>
+  moveToWorkbookEditPage: (workbookId: number) =>
     RouteUtil.moveToPage(`/manager/workbooks/${workbookId}`),
   moveToWorkbookRegisterPage: () =>
     RouteUtil.moveToPage("/manager/workbooks/registration"),

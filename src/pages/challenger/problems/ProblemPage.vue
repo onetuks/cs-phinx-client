@@ -3,7 +3,7 @@ import { onMounted, ref } from "vue";
 import { RouteUtil } from "@/utils/RouteUtil";
 import { initialProblem, Problem } from "@/types/Problem";
 import { Answer, initialAnswer } from "@/types/Answer";
-import { ProblemManipulator } from "@/pages/challenger/problems/ProblemManipulator";
+import { ProblemManipulator } from "@/pages/manipulator/ProblemManipulator";
 import { useProblemsStore } from "@/stores/Problems";
 import { useWorkbookStore } from "@/stores/Workbook";
 import ProblemInfoView from "@/pages/challenger/problems/components/ProblemInfoView.vue";

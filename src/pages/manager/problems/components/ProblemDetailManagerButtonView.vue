@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { RouteUtil } from "@/utils/RouteUtil";
-import { ProblemManagerManipulator } from "@/pages/manager/problems/ProblemManagerManipulator";
+import { ProblemManagerManipulator } from "@/pages/manipulator/ProblemManagerManipulator";
 import { Problem } from "@/types/Problem";
 import { Answer } from "@/types/Answer";
 import ManagerButton from "@/components/widgets/ManagerButton.vue";
@@ -33,8 +33,8 @@ defineProps<{
         :click-button-type="'삭제하기'"
         @click-button="
           ProblemManagerManipulator.removeProblem(
-            problem.value.problemId,
-            answer.value.answerId
+            problem.problemId,
+            answer.answerId,
           )
         "
       />
