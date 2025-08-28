@@ -1,7 +1,8 @@
 import { get, patch, post, remove } from "@/utils/ApiRequestUtil";
-import { Workbook } from "@/types/Workbook";
+import { CollectionType, Workbook } from "@/types/Workbook";
 import { Page, PageUtil } from "@/utils/PageUtil";
 import { WorkbookResponse } from "@/apis/responses/WorkbookResponse";
+import { WorkbookCommand } from "@/apis/commands/WorkbookCommand";
 
 const BASE_URI = "/workbooks" as const;
 
@@ -16,26 +17,34 @@ export const WorkbookApis = {
     });
   },
   getWorkbooks: async (
+    collectionType?: CollectionType,
     page?: number,
-    size?: number
+    size?: number,
   ): Promise<Page<Workbook>> => {
-    return await get(PageUtil.buildPageQuery(BASE_URI, page, size)).then(
-      (res) => {
-        const workbookResponses = res as Page<WorkbookResponse>;
-        const workbooks = res as Page<Workbook>;
-        workbookResponses.content.forEach(
-          (workbookResponse: WorkbookResponse, index: number) => {
-            workbooks.content[index] =
-              WorkbookResponse.toWorkbook(workbookResponse);
-          }
-        );
-        return workbooks;
-      }
+    return await requestGetWorkbooks(
+      buildCollectionTypeQueryParam(`${BASE_URI}`, collectionType),
+      page,
+      size,
+    );
+  },
+  getWorkbooksWithKeyword: async (
+    keyword?: string,
+    collectionType?: CollectionType,
+    page?: number,
+    size?: number,
+  ): Promise<Page<Workbook>> => {
+    return await requestGetWorkbooks(
+      buildCollectionTypeQueryParam(
+        `${BASE_URI}?keyword=${keyword}`,
+        collectionType,
+      ),
+      page,
+      size,
     );
   },
   patchWorkbook: async (
     workbookId: number,
-    body: WorkbookCommand
+    body: WorkbookCommand,
   ): Promise<void> => {
     await patch(`${BASE_URI}/${workbookId}`, body);
   },
@@ -43,3 +52,40 @@ export const WorkbookApis = {
     await remove(`${BASE_URI}/${workbookId}`);
   },
 };
+
+async function requestGetWorkbooks(
+  originQuery: string,
+  page?: number,
+  size?: number,
+): Promise<Page<Workbook>> {
+  return await get(PageUtil.buildPageQuery(originQuery, page, size)).then(
+    (res) => {
+      const workbookResponses = res as Page<WorkbookResponse>;
+      const workbooks = res as Page<Workbook>;
+      workbookResponses.content.forEach(
+        (workbookResponse: WorkbookResponse, index: number) => {
+          workbooks.content[index] =
+            WorkbookResponse.toWorkbook(workbookResponse);
+        },
+      );
+      return workbooks;
+    },
+  );
+}
+
+function buildCollectionTypeQueryParam(
+  originQuery: string,
+  collectionType?: CollectionType,
+): string {
+  if (collectionType === undefined) {
+    return originQuery;
+  }
+
+  let parameterizedQuery = originQuery;
+  if (originQuery.includes("?")) {
+    parameterizedQuery += "&";
+  } else {
+    parameterizedQuery += "?";
+  }
+  return parameterizedQuery + `collection-type=${collectionType}`;
+}

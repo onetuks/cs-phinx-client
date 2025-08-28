@@ -1,93 +1,55 @@
 <script lang="ts" setup>
-import {onMounted, ref} from "vue";
-import {
-  toaster,
-  WORKBOOK_EDIT_SUCCESS,
-  WORKBOOK_REGISTER_SUCCESS,
-  WORKBOOK_REMOVE_SUCCESS,
-} from "@/utils/ToastUtil";
-import {Problem} from "@/types/Problem";
-import {initialWorkbook, Workbook} from "@/types/Workbook";
-import {ProblemApis} from "@/apis/ProblemApis";
-import {WorkbookApis} from "@/apis/WorkbookApis";
-import WorkbookDetailManagerProblemTable
-  from "@/pages/manager/workbooks/components/WorkbookDetailManagerProblemTable.vue";
+import { onMounted, ref } from "vue";
+import { Problem } from "@/types/Problem";
+import { initialWorkbook, Workbook } from "@/types/Workbook";
+import { ProblemApis } from "@/apis/ProblemApis";
+import WorkbookDetailManagerProblemTable from "@/pages/manager/workbooks/components/WorkbookDetailManagerProblemTable.vue";
 import ManagerButton from "@/components/widgets/ManagerButton.vue";
-import WorkbookDetailManagerInfoView
-  from "@/pages/manager/workbooks/components/WorkbookDetailManagerInfoView.vue";
-import {WorkbookCommand} from "@/apis/commands/WorkbookCommand";
-import {RouteUtil} from "@/utils/RouteUtil";
+import WorkbookDetailManagerInfoView from "@/pages/manager/workbooks/components/WorkbookDetailManagerInfoView.vue";
+import { RouteUtil } from "@/utils/RouteUtil";
+import { WorkbookManagerManipulator } from "@/pages/manipulator/WorkbookManagerManipulator";
+import { WorkbookManipulator } from "@/pages/manipulator/WorkbookManipulator";
+
+async function fetchAllProblems() {
+  await ProblemApis.getProblems(undefined, undefined, 1000).then((res) => {
+    const allProblems: Problem[] = res.content;
+    includedProblems.value = workbook.value.includedProblems;
+    excludedProblems.value = allProblems.filter(
+      (problem: Problem) => !includedProblems.value.includes(problem),
+    );
+  });
+}
+
+onMounted(async () => {
+  if (!RouteUtil.isForRegistration()) {
+    const workbookId = Number(RouteUtil.extractParam("workbookId"));
+    workbook.value = await WorkbookManipulator.fetchWorkbook(workbookId);
+  }
+
+  await fetchAllProblems();
+});
 
 const workbook = ref<Workbook>(initialWorkbook);
 const includedProblems = ref<Problem[]>([]);
 const excludedProblems = ref<Problem[]>([]);
 
-const handleToggleProblem = (problem: Problem, toIncluded: boolean): void => {
+function handleToggleProblem(problem: Problem, toIncluded: boolean) {
   if (toIncluded) {
     includedProblems.value.push(problem);
     excludedProblems.value = excludedProblems.value.filter(
-      (p) => problem.problemId !== p.problemId
+      (p) => problem.problemId !== p.problemId,
     );
   } else {
     excludedProblems.value.push(problem);
     includedProblems.value = includedProblems.value.filter(
-      (p) => problem.problemId !== p.problemId
+      (p) => problem.problemId !== p.problemId,
     );
   }
-};
+}
 
-const updateWorkbook = (updatedWorkBook: Workbook): void => {
+function updateWorkbook(updatedWorkBook: Workbook) {
   workbook.value = { ...updatedWorkBook };
-};
-
-const registerWorkbook = async (): Promise<void> => {
-  await WorkbookApis.postNewWorkbook(
-    WorkbookCommand.fromWorkbook(workbook.value)
-  ).then((workbookId) => {
-    workbook.value.workbookId = workbookId;
-    toaster.success(WORKBOOK_REGISTER_SUCCESS);
-    RouteUtil.moveToWorkbookEditPage(workbookId);
-  });
-};
-const editWorkbook = async (): Promise<void> => {
-  await WorkbookApis.patchWorkbook(
-    workbook.value.workbookId,
-    WorkbookCommand.fromWorkbook(workbook.value)
-  ).then(() => {
-    toaster.success(WORKBOOK_EDIT_SUCCESS);
-  });
-};
-const removeWorkbook = async (): Promise<void> => {
-  await WorkbookApis.deleteWorkbook(workbook.value.workbookId).then(() => {
-    toaster.success(WORKBOOK_REMOVE_SUCCESS);
-    RouteUtil.moveToWorkbookManagerPage();
-  });
-};
-
-onMounted(() => {
-  if (!RouteUtil.isForRegistration()) {
-    const workbookId = Number(RouteUtil.extractParam("workbookId"));
-    fetchWorkbook(workbookId);
-  }
-
-  fetchAllProblems();
-});
-
-const fetchWorkbook = async (workbookId: number): Promise<void> => {
-  await WorkbookApis.getWorkbook(workbookId).then((res) => {
-    workbook.value = res;
-  });
-};
-
-const fetchAllProblems = async () => {
-  await ProblemApis.getProblems(undefined, undefined, 1000).then((res) => {
-    const allProblems: Problem[] = res.content;
-    includedProblems.value = workbook.value.includedProblems;
-    excludedProblems.value = allProblems.filter(
-      (problem: Problem) => !includedProblems.value.includes(problem)
-    );
-  });
-};
+}
 </script>
 
 <template>
@@ -122,17 +84,19 @@ const fetchAllProblems = async () => {
     >
       <manager-button
         :click-button-type="'등록하기'"
-        @click="registerWorkbook"
+        @click-button="WorkbookManagerManipulator.registerWorkbook(workbook)"
       />
     </div>
     <div v-else class="flex flex-row justify-end space-x-4">
       <manager-button
         :click-button-type="'수정하기'"
-        @click-button="editWorkbook"
+        @click-button="WorkbookManagerManipulator.editWorkbook(workbook)"
       />
       <manager-button
         :click-button-type="'삭제하기'"
-        @click-button="removeWorkbook"
+        @click-button="
+          WorkbookManagerManipulator.removeWorkbook(workbook.workbookId)
+        "
       />
     </div>
   </div>

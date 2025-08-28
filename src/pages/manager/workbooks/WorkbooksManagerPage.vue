@@ -2,10 +2,11 @@
 import { onMounted, ref } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { Workbook } from "@/types/Workbook";
-import { WorkbookApis } from "@/apis/WorkbookApis";
 import { Page, PageUtil } from "@/utils/PageUtil";
 import { DateUtil } from "@/utils/DateUtil";
 import { RouteUtil } from "@/utils/RouteUtil";
+import { WorkbookManipulator } from "@/pages/manipulator/WorkbookManipulator";
+import { WorkbookManagerManipulator } from "@/pages/manipulator/WorkbookManagerManipulator";
 
 const headers: string[] = [
   "번호",
@@ -16,27 +17,24 @@ const headers: string[] = [
   "편집",
 ] as const;
 
+onMounted(async () => {
+  workbooks.value = await WorkbookManipulator.fetchWorkbooks(
+    undefined,
+    workbooks.value.number,
+  );
+});
+
 const workbooks = ref<Page<Workbook>>(PageUtil.emptyPage());
 
 const toggleWorkbookActiveness = async (workbook: Workbook): Promise<void> => {
-  // const targetWorkbook = workbooks.value.content.find((w) => {
-  //   return w.workbookId === workbook.workbookId;
-  // });
-  // if (!targetWorkbook) return;
-  // targetWorkbook.isActive = !targetWorkbook.isActive;
-  //
-  // WorkbookManipulator.editWorkbook(targetWorkbook);
-};
-
-onMounted(() => fetchWorkbooks());
-
-const fetchWorkbooks = async (): Promise<void> => {
-  await WorkbookApis.getWorkbooks(workbooks.value.number).then((res) => {
-    workbooks.value = res;
+  const targetWorkbook = workbooks.value.content.find((w) => {
+    return w.workbookId === workbook.workbookId;
   });
+  if (!targetWorkbook) return;
+  targetWorkbook.isActive = !targetWorkbook.isActive;
+
+  await WorkbookManagerManipulator.editWorkbook(targetWorkbook);
 };
-const fetchPrevPage = () => {};
-const fetchNextPage = () => {};
 </script>
 
 <template>
@@ -113,15 +111,16 @@ const fetchNextPage = () => {};
       </tbody>
     </table>
 
-    <div class="flex flex-row justify-end space-x-5 my-5">
-      <button @click="fetchPrevPage">
-        <font-awesome-icon :icon="['fas', 'left-long']" />
-      </button>
+    <!--  TODO: pagination  -->
+    <!--    <div class="flex flex-row justify-end space-x-5 my-5">-->
+    <!--      <button @click="fetchPrevPage">-->
+    <!--        <font-awesome-icon :icon="['fas', 'left-long']" />-->
+    <!--      </button>-->
 
-      <button @click="fetchNextPage">
-        <font-awesome-icon :icon="['fas', 'right-long']" />
-      </button>
-    </div>
+    <!--      <button @click="fetchNextPage">-->
+    <!--        <font-awesome-icon :icon="['fas', 'right-long']" />-->
+    <!--      </button>-->
+    <!--    </div>-->
   </div>
 </template>
 

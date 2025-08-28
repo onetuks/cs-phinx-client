@@ -43,4 +43,13 @@ export const CollectionType = {
         return "오늘 쓱싹 모음집";
     }
   },
+  values: (): CollectionType[] => {
+    return [
+      "TOPIC_POINT",
+      "QUICK_POINT",
+      "KEY_POINT",
+      "TRAP_POINT",
+      "DAILY_POINT",
+    ];
+  },
 };

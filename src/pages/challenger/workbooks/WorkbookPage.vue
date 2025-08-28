@@ -1,20 +1,14 @@
 <script lang="ts" setup>
 import { onMounted, ref } from "vue";
-import { WorkbookApis } from "@/apis/WorkbookApis";
 import { initialWorkbook, Workbook } from "@/types/Workbook";
 import { RouteUtil } from "@/utils/RouteUtil";
 import WorkbookInfoView from "@/pages/challenger/workbooks/components/WorkbookInfoView.vue";
-import WorkbookProblemListView from "@/pages/challenger/workbooks/components/WorkbookProblemListView.vue";
+import ProblemListView from "@/pages/challenger/problems/ProblemListView.vue";
+import { WorkbookManipulator } from "@/pages/manipulator/WorkbookManipulator";
 
-async function fetchWorkbook(workbookId: number) {
-  await WorkbookApis.getWorkbook(workbookId).then((res) => {
-    workbook.value = res;
-  });
-}
-
-onMounted(() => {
+onMounted(async () => {
   const workbookId = Number(RouteUtil.extractParam("workbookId"));
-  fetchWorkbook(workbookId);
+  workbook.value = await WorkbookManipulator.fetchWorkbook(workbookId);
 });
 
 const workbook = ref<Workbook>(initialWorkbook);
@@ -23,7 +17,7 @@ const workbook = ref<Workbook>(initialWorkbook);
 <template>
   <div class="grid grid-cols-2 rounded-2xl bg-secondary my-10 p-5 gap-5">
     <WorkbookInfoView :workbook="workbook" />
-    <WorkbookProblemListView
+    <ProblemListView
       :problems="workbook.includedProblems"
       :workbook-id="workbook.workbookId"
     />
